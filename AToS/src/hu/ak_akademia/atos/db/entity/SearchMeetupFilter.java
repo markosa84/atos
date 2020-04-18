@@ -13,10 +13,10 @@ public class SearchMeetupFilter {
 	private final String location;
 	private final LocalDateTime dateAndTimeFrom;
 	private final LocalDateTime dateAndTimeTo;
-	private final LocalDateTime durationFrom;
-	private final LocalDateTime durationTo;
-	private final Long participantLimitFrom;
-	private final Long participantLimitTo;
+	private final Double durationFrom;
+	private final Double durationTo;
+	private final Integer participantLimitFrom;
+	private final Integer participantLimitTo;
 
 	private SearchMeetupFilter(Builder builder) {
 		this.searchMeetupFilterId = builder.searchMeetupFilterId;
@@ -70,19 +70,19 @@ public class SearchMeetupFilter {
 		return dateAndTimeTo;
 	}
 
-	public LocalDateTime getDurationFrom() {
+	public Double getDurationFrom() {
 		return durationFrom;
 	}
 
-	public LocalDateTime getDurationTo() {
+	public Double getDurationTo() {
 		return durationTo;
 	}
 
-	public Long getParticipantLimitFrom() {
+	public Integer getParticipantLimitFrom() {
 		return participantLimitFrom;
 	}
 
-	public Long getParticipantLimitTo() {
+	public Integer getParticipantLimitTo() {
 		return participantLimitTo;
 	}
 
@@ -100,10 +100,10 @@ public class SearchMeetupFilter {
 		private String location;
 		private LocalDateTime dateAndTimeFrom;
 		private LocalDateTime dateAndTimeTo;
-		private LocalDateTime durationFrom;
-		private LocalDateTime durationTo;
-		private Long participantLimitFrom;
-		private Long participantLimitTo;
+		private Double durationFrom;
+		private Double durationTo;
+		private Integer participantLimitFrom;
+		private Integer participantLimitTo;
 
 		private Builder() {
 		}
@@ -153,22 +153,22 @@ public class SearchMeetupFilter {
 			return this;
 		}
 
-		public Builder withDurationFrom(LocalDateTime durationFrom) {
+		public Builder withDurationFrom(Double durationFrom) {
 			this.durationFrom = durationFrom;
 			return this;
 		}
 
-		public Builder withDurationTo(LocalDateTime durationTo) {
+		public Builder withDurationTo(Double durationTo) {
 			this.durationTo = durationTo;
 			return this;
 		}
 
-		public Builder withParticipantLimitFrom(Long participantLimitFrom) {
+		public Builder withParticipantLimitFrom(Integer participantLimitFrom) {
 			this.participantLimitFrom = participantLimitFrom;
 			return this;
 		}
 
-		public Builder withParticipantLimitTo(Long participantLimitTo) {
+		public Builder withParticipantLimitTo(Integer participantLimitTo) {
 			this.participantLimitTo = participantLimitTo;
 			return this;
 		}

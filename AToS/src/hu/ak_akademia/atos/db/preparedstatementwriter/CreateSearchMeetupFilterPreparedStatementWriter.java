@@ -17,7 +17,6 @@ public class CreateSearchMeetupFilterPreparedStatementWriter implements Prepared
 	@Override
 	public void write(PreparedStatement preparedStatement) throws SQLException {
 		int i = 1;
-		preparedStatement.setLong(i++, searchMeetupFilter.getSearchMeetupFilterId());
 		preparedStatement.setLong(i++, searchMeetupFilter.getInterestId());
 		preparedStatement.setString(i++, searchMeetupFilter.getDisplayName());
 		preparedStatement.setString(i++, searchMeetupFilter.getDescription());
@@ -26,10 +25,10 @@ public class CreateSearchMeetupFilterPreparedStatementWriter implements Prepared
 		preparedStatement.setString(i++, searchMeetupFilter.getLocation());
 		preparedStatement.setTimestamp(i++, Timestamp.valueOf(searchMeetupFilter.getDateAndTimeFrom()));
 		preparedStatement.setTimestamp(i++, Timestamp.valueOf(searchMeetupFilter.getDateAndTimeTo()));
-		preparedStatement.setTimestamp(i++, Timestamp.valueOf(searchMeetupFilter.getDurationFrom()));
-		preparedStatement.setTimestamp(i++, Timestamp.valueOf(searchMeetupFilter.getDurationTo()));
-		preparedStatement.setLong(i++, searchMeetupFilter.getParticipantLimitFrom());
-		preparedStatement.setLong(i++, searchMeetupFilter.getParticipantLimitTo());
+		preparedStatement.setDouble(i++, searchMeetupFilter.getDurationFrom());
+		preparedStatement.setDouble(i++, searchMeetupFilter.getDurationTo());
+		preparedStatement.setInt(i++, searchMeetupFilter.getParticipantLimitFrom());
+		preparedStatement.setInt(i++, searchMeetupFilter.getParticipantLimitTo());
 	}
 
 }

@@ -16,8 +16,8 @@ public class CreateSearchMeetupFilterTagMapPreparedStatementWriter implements Pr
 	@Override
 	public void write(PreparedStatement preparedStatement) throws SQLException {
 		int i = 1;
-		preparedStatement.setLong(i++, searchMeetupFilterTagMap.getSearchMeetupFilterTagMapId());
 		preparedStatement.setLong(i++, searchMeetupFilterTagMap.getSearchMeetupFilterId());
 		preparedStatement.setString(i++, searchMeetupFilterTagMap.getTag());
 	}
+
 }

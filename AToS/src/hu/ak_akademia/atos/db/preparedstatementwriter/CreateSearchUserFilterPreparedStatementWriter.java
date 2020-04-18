@@ -16,13 +16,12 @@ public class CreateSearchUserFilterPreparedStatementWriter implements PreparedSt
 	@Override
 	public void write(PreparedStatement preparedStatement) throws SQLException {
 		int i = 1;
-		preparedStatement.setLong(i++, searchUserFilter.getSearchUserFilterId());
 		preparedStatement.setString(i++, searchUserFilter.getDisplayName());
 		preparedStatement.setLong(i++, searchUserFilter.getInterestId());
 		preparedStatement.setLong(i++, searchUserFilter.getCityId());
 		preparedStatement.setLong(i++, searchUserFilter.getGenderId());
-		preparedStatement.setLong(i++, searchUserFilter.getFromAge());
-		preparedStatement.setLong(i++, searchUserFilter.getToAge());
-
+		preparedStatement.setInt(i++, searchUserFilter.getFromAge());
+		preparedStatement.setInt(i++, searchUserFilter.getToAge());
 	}
+
 }

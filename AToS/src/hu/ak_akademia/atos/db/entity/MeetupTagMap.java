@@ -1,12 +1,12 @@
 package hu.ak_akademia.atos.db.entity;
 
-public class MeetUpTagMap {
+public class MeetupTagMap {
 
 	private final Long meetupTagMapId;
 	private final Long meetupId;
 	private final String tag;
 
-	private MeetUpTagMap(Builder builder) {
+	private MeetupTagMap(Builder builder) {
 		this.meetupTagMapId = builder.meetupTagMapId;
 		this.meetupId = builder.meetupId;
 		this.tag = builder.tag;
@@ -51,15 +51,15 @@ public class MeetUpTagMap {
 			return this;
 		}
 
-		public MeetUpTagMap build() {
-			return new MeetUpTagMap(this);
+		public MeetupTagMap build() {
+			return new MeetupTagMap(this);
 		}
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder builder2 = new StringBuilder();
-		builder2.append("MeetUpTagMap [meetupTagMapId=");
+		builder2.append("MeetupTagMap [meetupTagMapId=");
 		builder2.append(meetupTagMapId);
 		builder2.append(", meetupId=");
 		builder2.append(meetupId);

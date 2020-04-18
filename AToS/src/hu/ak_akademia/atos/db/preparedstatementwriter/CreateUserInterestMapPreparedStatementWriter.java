@@ -16,7 +16,6 @@ public class CreateUserInterestMapPreparedStatementWriter implements PreparedSta
 	@Override
 	public void write(PreparedStatement preparedStatement) throws SQLException {
 		int i = 1;
-		preparedStatement.setLong(i++, userInterestMap.getUserInterestMapId());
 		preparedStatement.setString(i++, userInterestMap.getUsername());
 		preparedStatement.setLong(i++, userInterestMap.getInterestId());
 	}

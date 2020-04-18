@@ -17,7 +17,6 @@ public class CreateMeetupPreparedStatementWriter implements PreparedStatementWri
 	@Override
 	public void write(PreparedStatement preparedStatement) throws SQLException {
 		int i = 1;
-		preparedStatement.setLong(i++, meetup.getMeetupId());
 		preparedStatement.setString(i++, meetup.getUsername());
 		preparedStatement.setLong(i++, meetup.getInterestId());
 		preparedStatement.setString(i++, meetup.getName());
