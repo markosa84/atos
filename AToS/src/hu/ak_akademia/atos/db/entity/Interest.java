@@ -4,12 +4,12 @@ public class Interest {
 
 	private final Long interestId;
 	private final String name;
-	private final String text;
+	private final String description;
 
 	private Interest(Builder builder) {
 		this.interestId = builder.interestId;
 		this.name = builder.name;
-		this.text = builder.text;
+		this.description = builder.description;
 	}
 
 	public Long getInterestId() {
@@ -20,8 +20,8 @@ public class Interest {
 		return name;
 	}
 
-	public String getText() {
-		return text;
+	public String getDescription() {
+		return description;
 	}
 
 	public static Builder builder() {
@@ -31,7 +31,7 @@ public class Interest {
 	public static final class Builder {
 		private Long interestId;
 		private String name;
-		private String text;
+		private String description;
 
 		private Builder() {
 		}
@@ -46,8 +46,8 @@ public class Interest {
 			return this;
 		}
 
-		public Builder withText(String text) {
-			this.text = text;
+		public Builder withDescription(String description) {
+			this.description = description;
 			return this;
 		}
 
@@ -63,8 +63,8 @@ public class Interest {
 		builder2.append(interestId);
 		builder2.append(", name=");
 		builder2.append(name);
-		builder2.append(", text=");
-		builder2.append(text);
+		builder2.append(", description=");
+		builder2.append(description);
 		builder2.append("]");
 		return builder2.toString();
 	}
