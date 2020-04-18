@@ -1,8 +1,13 @@
-package hu.ak_akademia.atos.db;
+package hu.ak_akademia.atos.db.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import hu.ak_akademia.atos.AtosRuntimeException;
+import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
+import hu.ak_akademia.atos.db.sqlbuilder.SqlBuilder;
 
 public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 
@@ -18,9 +23,15 @@ public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 	}
 
 	@Override
-	public void create(E entity) {
-		// TODO Auto-generated method stub
-
+	public void create(SqlBuilder sqlBuilder, PreparedStatementWriter<E> preparedStatementWriter) {
+		try {
+			String sql = sqlBuilder.buildSqlStatement();
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatementWriter.write(preparedStatement);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new AtosRuntimeException("Hiba az adatbázisba történő adatbeszúrás közben.", e);
+		}
 	}
 
 	@Override

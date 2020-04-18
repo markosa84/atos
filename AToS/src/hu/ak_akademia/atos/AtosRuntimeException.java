@@ -1,4 +1,4 @@
-package hu.ak_akademia.atos.db;
+package hu.ak_akademia.atos;
 
 public class AtosRuntimeException extends RuntimeException {
 
