@@ -1,7 +1,5 @@
 package hu.ak_akademia.atos.db.entity;
 
-import java.time.LocalDate;
-
 public class UserInterestMap {
 
 	private final Long userInterestMapId;

@@ -4,19 +4,34 @@ public class MeetUpTagMap {
 
 	private final Long meetupTagMapId;
 	private final Long meetupId;
-	private final String tagId;
+	private final String tag;
+
 	private MeetUpTagMap(Builder builder) {
 		this.meetupTagMapId = builder.meetupTagMapId;
 		this.meetupId = builder.meetupId;
-		this.tagId = builder.tagId;
+		this.tag = builder.tag;
 	}
+
+	public Long getMeetupTagMapId() {
+		return meetupTagMapId;
+	}
+
+	public Long getMeetupId() {
+		return meetupId;
+	}
+
+	public String getTag() {
+		return tag;
+	}
+
 	public static Builder builder() {
 		return new Builder();
 	}
+
 	public static final class Builder {
 		private Long meetupTagMapId;
 		private Long meetupId;
-		private String tagId;
+		private String tag;
 
 		private Builder() {
 		}
@@ -31,33 +46,8 @@ public class MeetUpTagMap {
 			return this;
 		}
 
-		public Long getMeetupTagMapId() {
-			return meetupTagMapId;
-		}
-
-
-		public void setMeetupTagMapId(Long meetupTagMapId) {
-			this.meetupTagMapId = meetupTagMapId;
-		}
-
-		public Long getMeetupId() {
-			return meetupId;
-		}
-
-		public void setMeetupId(Long meetupId) {
-			this.meetupId = meetupId;
-		}
-
-		public String getTagId() {
-			return tagId;
-		}
-
-		public void setTagId(String tagId) {
-			this.tagId = tagId;
-		}
-
-		public Builder withTagId(String tagId) {
-			this.tagId = tagId;
+		public Builder withTag(String tag) {
+			this.tag = tag;
 			return this;
 		}
 
@@ -68,6 +58,15 @@ public class MeetUpTagMap {
 
 	@Override
 	public String toString() {
-		return "Builder [meetupTagMapId=" + meetupTagMapId + ", meetupId=" + meetupId + ", tagId=" + tagId + "]";
+		StringBuilder builder2 = new StringBuilder();
+		builder2.append("MeetUpTagMap [meetupTagMapId=");
+		builder2.append(meetupTagMapId);
+		builder2.append(", meetupId=");
+		builder2.append(meetupId);
+		builder2.append(", tag=");
+		builder2.append(tag);
+		builder2.append("]");
+		return builder2.toString();
 	}
+
 }

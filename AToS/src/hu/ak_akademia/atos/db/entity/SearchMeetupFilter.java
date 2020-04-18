@@ -3,7 +3,7 @@ package hu.ak_akademia.atos.db.entity;
 import java.time.LocalDateTime;
 
 public class SearchMeetupFilter {
-	
+
 	private final Long searchMeetupFilterId;
 	private final Long interestId;
 	private final String displayName;
@@ -12,11 +12,12 @@ public class SearchMeetupFilter {
 	private final Long cityId;
 	private final String location;
 	private final LocalDateTime dateAndTimeFrom;
-	private final LocalDateTime date_and_time_to;
-	private final LocalDateTime duration_from;
-	private final LocalDateTime duration_to;
-	private final Long participant_limit_from;
-	private final Long participant_limit_to;
+	private final LocalDateTime dateAndTimeTo;
+	private final LocalDateTime durationFrom;
+	private final LocalDateTime durationTo;
+	private final Long participantLimitFrom;
+	private final Long participantLimitTo;
+
 	private SearchMeetupFilter(Builder builder) {
 		this.searchMeetupFilterId = builder.searchMeetupFilterId;
 		this.interestId = builder.interestId;
@@ -26,15 +27,69 @@ public class SearchMeetupFilter {
 		this.cityId = builder.cityId;
 		this.location = builder.location;
 		this.dateAndTimeFrom = builder.dateAndTimeFrom;
-		this.date_and_time_to = builder.date_and_time_to;
-		this.duration_from = builder.duration_from;
-		this.duration_to = builder.duration_to;
-		this.participant_limit_from = builder.participant_limit_from;
-		this.participant_limit_to = builder.participant_limit_to;
+		this.dateAndTimeTo = builder.dateAndTimeTo;
+		this.durationFrom = builder.durationFrom;
+		this.durationTo = builder.durationTo;
+		this.participantLimitFrom = builder.participantLimitFrom;
+		this.participantLimitTo = builder.participantLimitTo;
 	}
+
+	public Long getSearchMeetupFilterId() {
+		return searchMeetupFilterId;
+	}
+
+	public Long getInterestId() {
+		return interestId;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Boolean getOnline() {
+		return online;
+	}
+
+	public Long getCityId() {
+		return cityId;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public LocalDateTime getDateAndTimeFrom() {
+		return dateAndTimeFrom;
+	}
+
+	public LocalDateTime getDateAndTimeTo() {
+		return dateAndTimeTo;
+	}
+
+	public LocalDateTime getDurationFrom() {
+		return durationFrom;
+	}
+
+	public LocalDateTime getDurationTo() {
+		return durationTo;
+	}
+
+	public Long getParticipantLimitFrom() {
+		return participantLimitFrom;
+	}
+
+	public Long getParticipantLimitTo() {
+		return participantLimitTo;
+	}
+
 	public static Builder builder() {
 		return new Builder();
 	}
+
 	public static final class Builder {
 		private Long searchMeetupFilterId;
 		private Long interestId;
@@ -44,11 +99,11 @@ public class SearchMeetupFilter {
 		private Long cityId;
 		private String location;
 		private LocalDateTime dateAndTimeFrom;
-		private LocalDateTime date_and_time_to;
-		private LocalDateTime duration_from;
-		private LocalDateTime duration_to;
-		private Long participant_limit_from;
-		private Long participant_limit_to;
+		private LocalDateTime dateAndTimeTo;
+		private LocalDateTime durationFrom;
+		private LocalDateTime durationTo;
+		private Long participantLimitFrom;
+		private Long participantLimitTo;
 
 		private Builder() {
 		}
@@ -93,28 +148,28 @@ public class SearchMeetupFilter {
 			return this;
 		}
 
-		public Builder withDate_and_time_to(LocalDateTime date_and_time_to) {
-			this.date_and_time_to = date_and_time_to;
+		public Builder withDateAndTimeTo(LocalDateTime dateAndTimeTo) {
+			this.dateAndTimeTo = dateAndTimeTo;
 			return this;
 		}
 
-		public Builder withDuration_from(LocalDateTime duration_from) {
-			this.duration_from = duration_from;
+		public Builder withDurationFrom(LocalDateTime durationFrom) {
+			this.durationFrom = durationFrom;
 			return this;
 		}
 
-		public Builder withDuration_to(LocalDateTime duration_to) {
-			this.duration_to = duration_to;
+		public Builder withDurationTo(LocalDateTime durationTo) {
+			this.durationTo = durationTo;
 			return this;
 		}
 
-		public Builder withParticipant_limit_from(Long participant_limit_from) {
-			this.participant_limit_from = participant_limit_from;
+		public Builder withParticipantLimitFrom(Long participantLimitFrom) {
+			this.participantLimitFrom = participantLimitFrom;
 			return this;
 		}
 
-		public Builder withParticipant_limit_to(Long participant_limit_to) {
-			this.participant_limit_to = participant_limit_to;
+		public Builder withParticipantLimitTo(Long participantLimitTo) {
+			this.participantLimitTo = participantLimitTo;
 			return this;
 		}
 
@@ -123,7 +178,37 @@ public class SearchMeetupFilter {
 		}
 	}
 
-	
+	@Override
+	public String toString() {
+		StringBuilder builder2 = new StringBuilder();
+		builder2.append("SearchMeetupFilter [searchMeetupFilterId=");
+		builder2.append(searchMeetupFilterId);
+		builder2.append(", interestId=");
+		builder2.append(interestId);
+		builder2.append(", displayName=");
+		builder2.append(displayName);
+		builder2.append(", description=");
+		builder2.append(description);
+		builder2.append(", online=");
+		builder2.append(online);
+		builder2.append(", cityId=");
+		builder2.append(cityId);
+		builder2.append(", location=");
+		builder2.append(location);
+		builder2.append(", dateAndTimeFrom=");
+		builder2.append(dateAndTimeFrom);
+		builder2.append(", dateAndTimeTo=");
+		builder2.append(dateAndTimeTo);
+		builder2.append(", durationFrom=");
+		builder2.append(durationFrom);
+		builder2.append(", durationTo=");
+		builder2.append(durationTo);
+		builder2.append(", participantLimitFrom=");
+		builder2.append(participantLimitFrom);
+		builder2.append(", participantLimitTo=");
+		builder2.append(participantLimitTo);
+		builder2.append("]");
+		return builder2.toString();
+	}
 
 }
-	

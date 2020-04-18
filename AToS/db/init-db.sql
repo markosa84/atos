@@ -123,8 +123,8 @@ CREATE TABLE meetup (
 
 -- tag
 CREATE TABLE tag (
-	tag_id VARCHAR(30) NOT NULL,
-	CONSTRAINT tag_pk PRIMARY KEY (tag_id)
+	tag VARCHAR(30) NOT NULL,
+	CONSTRAINT tag_pk PRIMARY KEY (tag)
 );
 
 -- meetup_tag_map
@@ -132,10 +132,10 @@ CREATE SEQUENCE meetup_tag_map_seq;
 CREATE TABLE meetup_tag_map (
 	meetup_tag_map_id BIGINT NOT NULL,
 	meetup_id BIGINT NOT NULL,
-	tag_id VARCHAR(30) NOT NULL,
+	tag VARCHAR(30) NOT NULL,
 	CONSTRAINT meetup_tag_map_pk PRIMARY KEY (meetup_tag_map_id),
 	CONSTRAINT meetup_tag_map_fk1 FOREIGN KEY (meetup_id) REFERENCES meetup(meetup_id),
-	CONSTRAINT meetup_tag_map_fk2 FOREIGN KEY (tag_id) REFERENCES tag(tag_id)
+	CONSTRAINT meetup_tag_map_fk2 FOREIGN KEY (tag) REFERENCES tag(tag)
 );
 
 -- message
@@ -193,8 +193,8 @@ CREATE SEQUENCE search_meetup_filter_tag_map_seq;
 CREATE TABLE search_meetup_filter_tag_map (
 	search_meetup_filter_tag_map_id BIGINT NOT NULL,
 	search_meetup_filter_id BIGINT NOT NULL,
-	tag_id VARCHAR(30) NOT NULL,
+	tag VARCHAR(30) NOT NULL,
 	CONSTRAINT search_meetup_filter_tag_map_pk PRIMARY KEY (search_meetup_filter_tag_map_id),
 	CONSTRAINT search_meetup_filter_tag_map_fk1 FOREIGN KEY (search_meetup_filter_id) REFERENCES search_meetup_filter(search_meetup_filter_id),
-	CONSTRAINT search_meetup_filter_tag_map_fk2 FOREIGN KEY (tag_id) REFERENCES tag(tag_id)
+	CONSTRAINT search_meetup_filter_tag_map_fk2 FOREIGN KEY (tag) REFERENCES tag(tag)
 );

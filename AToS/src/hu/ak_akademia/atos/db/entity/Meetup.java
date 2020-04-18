@@ -1,6 +1,5 @@
 package hu.ak_akademia.atos.db.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Meetup {
@@ -9,7 +8,7 @@ public class Meetup {
 	private final String username;
 	private final Long interestId;
 	private final String name;
-	private final String description; // TEXT,
+	private final String description;
 	private final Boolean online;
 	private final Long cityId;
 	private final String location;

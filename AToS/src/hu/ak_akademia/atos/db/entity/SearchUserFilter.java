@@ -7,8 +7,8 @@ public class SearchUserFilter {
 	private final Long interestId;
 	private final Long cityId;
 	private final Long genderId;
-	private final int fromAge;
-	private final int toAge;
+	private final Integer fromAge;
+	private final Integer toAge;
 
 	private SearchUserFilter(Builder builder) {
 		this.searchUserFilterId = builder.searchUserFilterId;
@@ -18,7 +18,6 @@ public class SearchUserFilter {
 		this.genderId = builder.genderId;
 		this.fromAge = builder.fromAge;
 		this.toAge = builder.toAge;
-
 	}
 
 	public Long getSearchUserFilterId() {
@@ -41,11 +40,11 @@ public class SearchUserFilter {
 		return genderId;
 	}
 
-	public int getFromAge() {
+	public Integer getFromAge() {
 		return fromAge;
 	}
 
-	public int getToAge() {
+	public Integer getToAge() {
 		return toAge;
 	}
 
@@ -59,8 +58,8 @@ public class SearchUserFilter {
 		private Long interestId;
 		private Long cityId;
 		private Long genderId;
-		private int fromAge;
-		private int toAge;
+		private Integer fromAge;
+		private Integer toAge;
 
 		private Builder() {
 		}
@@ -90,12 +89,12 @@ public class SearchUserFilter {
 			return this;
 		}
 
-		public Builder withFromAge(int fromAge) {
+		public Builder withFromAge(Integer fromAge) {
 			this.fromAge = fromAge;
 			return this;
 		}
 
-		public Builder withToAge(int toAge) {
+		public Builder withToAge(Integer toAge) {
 			this.toAge = toAge;
 			return this;
 		}
@@ -125,7 +124,5 @@ public class SearchUserFilter {
 		builder2.append("]");
 		return builder2.toString();
 	}
-	
-	
 
 }
