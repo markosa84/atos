@@ -1,0 +1,10 @@
+package hu.ak_akademia.atos.db.sqlbuilder;
+
+public class CreateSearchMeetupFilterTagMapSqlBuilder implements SqlBuilder {
+
+	@Override
+	public String buildSqlStatement() {
+		return "INSERT INTO city (search_meetup_filter_tag_map_id, search_meetup_filter_id, tag) VALUES (nextval('search_meetup_filter_tag_map_seq'), ?, ?)";
+	}
+
+}
