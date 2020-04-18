@@ -15,9 +15,9 @@ import hu.ak_akademia.atos.db.preparedstatementwriter.CreateCityPreparedStatemen
 import hu.ak_akademia.atos.db.preparedstatementwriter.CreateCountryPreparedStatementWriter;
 import hu.ak_akademia.atos.db.preparedstatementwriter.CreateGenderPreparedStatementWriter;
 import hu.ak_akademia.atos.db.preparedstatementwriter.CreateUserInfoPreparedStatementWriter;
-import hu.ak_akademia.atos.db.sqlbuilder.CreateCitySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.CreateCountrySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.CreateGenderSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.city.CreateCitySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
 
 public class InitDb {
