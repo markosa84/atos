@@ -89,13 +89,13 @@ public class InitDb {
 	private static void populateUserInfo() {
 		System.out.print("User_info tábla feltöltése...");
 		UserInfo userInfo = UserInfo.builder()
-				.withUserName("markosa84")
-				.withFirstName("András")
-				.withLastName("Markos")
-				.withEmail("markos.andras@ak-akademia.hu")
+				.withUserName("kardesz97")
+				.withFirstName("Milán")
+				.withLastName("Karda")
+				.withEmail("kardamilan@yahoo.hu")
 				.withPasswordHash("Password123")
 				.withCityId(1L)
-				.withDateOfBirth(LocalDate.of(1984, 11, 6))
+				.withDateOfBirth(LocalDate.of(1997, 3, 6))
 				.withGenderId(2L)
 				.withShowMeInSearch(true)
 				.withShowAllDetails(true)
