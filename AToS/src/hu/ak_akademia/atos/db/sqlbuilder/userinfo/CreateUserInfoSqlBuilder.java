@@ -1,4 +1,6 @@
-package hu.ak_akademia.atos.db.sqlbuilder;
+package hu.ak_akademia.atos.db.sqlbuilder.userinfo;
+
+import hu.ak_akademia.atos.db.sqlbuilder.SqlBuilder;
 
 public class CreateUserInfoSqlBuilder implements SqlBuilder {
 

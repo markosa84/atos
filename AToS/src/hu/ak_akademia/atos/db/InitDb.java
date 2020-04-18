@@ -18,7 +18,7 @@ import hu.ak_akademia.atos.db.preparedstatementwriter.CreateUserInfoPreparedStat
 import hu.ak_akademia.atos.db.sqlbuilder.CreateCitySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.CreateCountrySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.CreateGenderSqlBuilder;
-import hu.ak_akademia.atos.db.sqlbuilder.CreateUserInfoSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
 
 public class InitDb {
 
