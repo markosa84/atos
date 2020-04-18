@@ -4,7 +4,7 @@ public class CreateMeetupSqlBuilder implements SqlBuilder {
 
 	@Override
 	public String buildSqlStatement() {
-		return "INSERT INTO meetup (meetupId, username, interestId, name, description, online, cityId, location, dateAndTime, duration, participantLimit) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		return "INSERT INTO meetup (meetup_id, username, interest_id, name, description, online, city_id, location, date_and_time, duration, participant_limit) VALUES (nextval('meetup_seq'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	}
 
 }

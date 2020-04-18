@@ -6,4 +6,5 @@ public class CreateTagSqlBuilder implements SqlBuilder {
 	public String buildSqlStatement() {
 		return "INSERT INTO tag (tag) VALUES (?)";
 	}
+
 }
