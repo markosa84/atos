@@ -11,7 +11,7 @@ import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 public class SelectAllTagResultSetReader implements ResultSetReader<Tag> {
 
 	@Override
-	public List<Tag> read(ResultSet resultSet) throws SQLException {
+	public List<Tag> searchMeetupFilterTagMap(ResultSet resultSet) throws SQLException {
 		List<Tag> results = new ArrayList<>();
 		while (resultSet.next()) {
 			String tagName = resultSet.getString("tag");

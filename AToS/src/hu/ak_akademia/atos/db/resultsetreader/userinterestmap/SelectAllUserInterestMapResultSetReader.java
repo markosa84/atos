@@ -11,7 +11,7 @@ import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 public class SelectAllUserInterestMapResultSetReader implements ResultSetReader<UserInterestMap> {
 
 	@Override
-	public List<UserInterestMap> read(ResultSet resultSet) throws SQLException {
+	public List<UserInterestMap> searchMeetupFilterTagMap(ResultSet resultSet) throws SQLException {
 		List<UserInterestMap> results = new ArrayList<>();
 		while (resultSet.next()) {
 			long userInterestMapId = resultSet.getLong("user_interest_map_id");
