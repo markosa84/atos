@@ -1,4 +1,6 @@
-package hu.ak_akademia.atos.db.sqlbuilder;
+package hu.ak_akademia.atos.db.sqlbuilder.interests;
+
+import hu.ak_akademia.atos.db.sqlbuilder.SqlBuilder;
 
 public class CreateInterestSqlBuilder implements SqlBuilder {
 

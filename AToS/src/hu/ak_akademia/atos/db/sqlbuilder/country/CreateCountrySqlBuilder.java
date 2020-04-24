@@ -1,4 +1,6 @@
-package hu.ak_akademia.atos.db.sqlbuilder;
+package hu.ak_akademia.atos.db.sqlbuilder.country;
+
+import hu.ak_akademia.atos.db.sqlbuilder.SqlBuilder;
 
 public class CreateCountrySqlBuilder implements SqlBuilder {
 
