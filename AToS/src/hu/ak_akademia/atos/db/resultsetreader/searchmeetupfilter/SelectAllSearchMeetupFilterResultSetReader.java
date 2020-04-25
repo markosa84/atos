@@ -22,8 +22,10 @@ public class SelectAllSearchMeetupFilterResultSetReader implements ResultSetRead
 			boolean online = resultSet.getBoolean("online");
 			long cityId = resultSet.getLong("city_id");
 			String location = resultSet.getString("location");
-			LocalDateTime dateAndTimeFrom;
-			LocalDateTime dateAndTimeTo;
+			LocalDateTime dateAndTimeFrom = resultSet.getTimestamp("date_and_time_from")
+					.toLocalDateTime();
+			LocalDateTime dateAndTimeTo = resultSet.getTimestamp("date_and_time_to")
+					.toLocalDateTime();
 			Double durationFrom = resultSet.getDouble("duration_from");
 			Double durationTo = resultSet.getDouble("duration_to");
 			Integer participantLimitFrom = resultSet.getInt("participant_limit_from");
