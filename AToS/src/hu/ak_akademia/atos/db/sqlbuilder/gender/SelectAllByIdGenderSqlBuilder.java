@@ -6,7 +6,7 @@ public class SelectAllByIdGenderSqlBuilder implements SqlBuilder {
 
 	@Override
 	public String buildSqlStatement() {
-		return "SELECT gender_id, name FROM city WHERE gender_id = ?";
+		return "SELECT gender_id, name FROM gender WHERE gender_id = ?";
 	}
 
 }

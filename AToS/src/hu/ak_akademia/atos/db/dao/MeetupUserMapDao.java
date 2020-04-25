@@ -1,4 +1,6 @@
 package hu.ak_akademia.atos.db.dao;
 
-public class MeetupUserMapDao extends AbstractDatabaseDao<MeetupUserMapDao> {
+import hu.ak_akademia.atos.db.entity.MeetupUserMap;
+
+public class MeetupUserMapDao extends AbstractDatabaseDao<MeetupUserMap> {
 }

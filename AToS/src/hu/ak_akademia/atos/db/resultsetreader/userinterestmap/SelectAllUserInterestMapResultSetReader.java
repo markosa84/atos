@@ -23,6 +23,8 @@ public class SelectAllUserInterestMapResultSetReader implements ResultSetReader<
 					.withUsername(username)
 					.withInterestId(interestId)
 					.build();
+
+			results.add(userInterestMap);
 		}
 		return results;
 	}

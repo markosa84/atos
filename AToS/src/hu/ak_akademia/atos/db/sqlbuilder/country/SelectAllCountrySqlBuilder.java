@@ -8,5 +8,5 @@ public class SelectAllCountrySqlBuilder implements SqlBuilder {
 	public String buildSqlStatement() {
 		return "SELECT country_id, name FROM country";
 	}
-	
+
 }

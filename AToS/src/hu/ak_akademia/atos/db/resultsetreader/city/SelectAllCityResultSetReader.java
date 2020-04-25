@@ -2,12 +2,10 @@ package hu.ak_akademia.atos.db.resultsetreader.city;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import hu.ak_akademia.atos.db.entity.City;
-import hu.ak_akademia.atos.db.entity.UserInfo;
 import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 
 public class SelectAllCityResultSetReader implements ResultSetReader<City> {

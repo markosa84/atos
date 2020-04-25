@@ -1,11 +1,12 @@
 package hu.ak_akademia.atos.db.resultsetreader.country;
 
-import hu.ak_akademia.atos.db.entity.Country;
-import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import hu.ak_akademia.atos.db.entity.Country;
+import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 
 public class SelectAllCountryResultSetReader implements ResultSetReader<Country> {
 

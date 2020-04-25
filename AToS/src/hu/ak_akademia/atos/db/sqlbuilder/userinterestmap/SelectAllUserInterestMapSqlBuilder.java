@@ -6,7 +6,7 @@ public class SelectAllUserInterestMapSqlBuilder implements SqlBuilder {
 
 	@Override
 	public String buildSqlStatement() {
-		return "SELECT user_interest_map_id, username, interest_id FROM user_interest_map WHERE user_interest_map_id = ?";
+		return "SELECT user_interest_map_id, username, interest_id FROM user_interest_map";
 	}
 
 }

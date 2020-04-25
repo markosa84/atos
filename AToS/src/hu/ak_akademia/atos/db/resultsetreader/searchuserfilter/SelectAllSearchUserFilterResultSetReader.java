@@ -8,7 +8,7 @@ import java.util.List;
 import hu.ak_akademia.atos.db.entity.SearchUserFilter;
 import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 
-public class SelectAllSearchMeetupFilterTagMapResultSetReader implements ResultSetReader<SearchUserFilter> {
+public class SelectAllSearchUserFilterResultSetReader implements ResultSetReader<SearchUserFilter> {
 
 	@Override
 	public List<SearchUserFilter> read(ResultSet resultSet) throws SQLException {

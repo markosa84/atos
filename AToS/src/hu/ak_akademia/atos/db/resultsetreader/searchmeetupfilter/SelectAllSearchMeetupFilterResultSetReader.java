@@ -18,7 +18,7 @@ public class SelectAllSearchMeetupFilterResultSetReader implements ResultSetRead
 			long searchMeetupFilterId = resultSet.getLong("search_meetup_filter_id");
 			long interestId = resultSet.getLong("interest_id");
 			String displayName = resultSet.getString("display_name");
-			String description = resultSet.getString("descripption");
+			String description = resultSet.getString("description");
 			boolean online = resultSet.getBoolean("online");
 			long cityId = resultSet.getLong("city_id");
 			String location = resultSet.getString("location");
@@ -46,7 +46,10 @@ public class SelectAllSearchMeetupFilterResultSetReader implements ResultSetRead
 					.withParticipantLimitFrom(participantLimitFrom)
 					.withParticipantLimitTo(participantLimitTo)
 					.build();
+
+			results.add(searchMeetupFilter);
 		}
 		return results;
 	}
+
 }

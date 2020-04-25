@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import hu.ak_akademia.atos.db.entity.City;
 import hu.ak_akademia.atos.db.entity.Gender;
 import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 

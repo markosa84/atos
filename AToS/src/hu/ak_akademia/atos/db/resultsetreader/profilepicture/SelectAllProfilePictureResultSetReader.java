@@ -17,11 +17,13 @@ public class SelectAllProfilePictureResultSetReader implements ResultSetReader<P
 			long pictureId = resultSet.getLong("picture_id");
 			String description = resultSet.getString("description");
 			String username = resultSet.getString("username");
+			byte[] imageContent = resultSet.getBytes("image_content");
 
 			ProfilePicture profilePicture = ProfilePicture.builder()
 					.withPictureId(pictureId)
 					.withDescription(description)
 					.withUsername(username)
+					.withImageContent(imageContent)
 					.build();
 
 			results.add(profilePicture);
