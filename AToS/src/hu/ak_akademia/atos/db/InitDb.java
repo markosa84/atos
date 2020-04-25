@@ -1,6 +1,7 @@
 package hu.ak_akademia.atos.db;
 
 import java.time.LocalDate;
+import java.util.Random;
 
 import hu.ak_akademia.atos.db.dao.CityDao;
 import hu.ak_akademia.atos.db.dao.CountryDao;
@@ -22,12 +23,16 @@ import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
 
 public class InitDb {
 
+	private static final Random random = new Random(20200425);
+
 	public static void main(String[] args) {
 		System.out.println("Adatbázis feltöltése mintaadatokkal elkezdődött.");
 		populateGender();
 		populateCountry();
 		populateCity();
 		populateUserInfo();
+		// TODO többi tábla feltöltése véletlenszerűek generált adatokkal, ahol
+		// lehetséges
 		System.out.println("Adatbázis feltöltése kész.");
 	}
 
