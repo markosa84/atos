@@ -10,7 +10,7 @@ import java.util.List;
 public class SelectAllCountryResultSetReader implements ResultSetReader<Country> {
 
 	@Override
-	public List<Country> searchMeetupFilterTagMap(ResultSet resultSet) throws SQLException {
+	public List<Country> read(ResultSet resultSet) throws SQLException {
 		List<Country> results = new ArrayList<>();
 		while (resultSet.next()) {
 			Long countryId = resultSet.getLong("country_id");

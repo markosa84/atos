@@ -11,7 +11,7 @@ import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 public class SelectAllProfilePictureResultSetReader implements ResultSetReader<ProfilePicture> {
 
 	@Override
-	public List<ProfilePicture> searchMeetupFilterTagMap(ResultSet resultSet) throws SQLException {
+	public List<ProfilePicture> read(ResultSet resultSet) throws SQLException {
 		List<ProfilePicture> results = new ArrayList<>();
 		while (resultSet.next()) {
 			long pictureId = resultSet.getLong("picture_id");

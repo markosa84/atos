@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ResultSetReader<E> {
 
-	List<E> searchMeetupFilterTagMap(ResultSet resultSet) throws SQLException;
+	List<E> read(ResultSet resultSet) throws SQLException;
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
 public class SelectAllInterestsResultSetReader implements ResultSetReader<Interest> {
 
 	@Override
-	public List<Interest> searchMeetupFilterTagMap(ResultSet resultSet) throws SQLException {
+	public List<Interest> read(ResultSet resultSet) throws SQLException {
 		List<Interest> results = new ArrayList<>();
 		while (resultSet.next()) {
 

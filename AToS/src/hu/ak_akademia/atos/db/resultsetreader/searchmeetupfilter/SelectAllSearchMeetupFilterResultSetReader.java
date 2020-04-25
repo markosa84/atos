@@ -12,7 +12,7 @@ import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 public class SelectAllSearchMeetupFilterResultSetReader implements ResultSetReader<SearchMeetupFilter> {
 
 	@Override
-	public List<SearchMeetupFilter> searchMeetupFilterTagMap(ResultSet resultSet) throws SQLException {
+	public List<SearchMeetupFilter> read(ResultSet resultSet) throws SQLException {
 		List<SearchMeetupFilter> results = new ArrayList<>();
 		while (resultSet.next()) {
 			long searchMeetupFilterId = resultSet.getLong("search_meetup_filter_id");
