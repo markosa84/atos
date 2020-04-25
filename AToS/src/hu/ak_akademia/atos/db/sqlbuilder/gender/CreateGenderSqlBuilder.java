@@ -1,4 +1,6 @@
-package hu.ak_akademia.atos.db.sqlbuilder;
+package hu.ak_akademia.atos.db.sqlbuilder.gender;
+
+import hu.ak_akademia.atos.db.sqlbuilder.SqlBuilder;
 
 public class CreateGenderSqlBuilder implements SqlBuilder {
 
