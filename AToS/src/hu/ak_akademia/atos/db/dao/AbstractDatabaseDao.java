@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import hu.ak_akademia.atos.AtosRuntimeException;
+import hu.ak_akademia.atos.NetbankRuntimeException;
 import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
 import hu.ak_akademia.atos.db.sqlbuilder.SqlBuilder;
 
@@ -18,7 +18,7 @@ public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 		try {
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/atos", "atos", "admin");
 		} catch (SQLException e) {
-			throw new AtosRuntimeException("Az adatbázishoz való csatlakozás sikertelen.", e);
+			throw new NetbankRuntimeException("Az adatbázishoz való csatlakozás sikertelen.", e);
 		}
 	}
 
@@ -30,7 +30,7 @@ public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 			preparedStatementWriter.write(preparedStatement);
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
-			throw new AtosRuntimeException("Hiba az adatbázisba történő adatbeszúrás közben.", e);
+			throw new NetbankRuntimeException("Hiba az adatbázisba történő adatbeszúrás közben.", e);
 		}
 	}
 
@@ -58,7 +58,7 @@ public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				throw new AtosRuntimeException("Az adatbázishoz való csatlakozás nem sikerült lezárni.", e);
+				throw new NetbankRuntimeException("Az adatbázishoz való csatlakozás nem sikerült lezárni.", e);
 			}
 		}
 	}
