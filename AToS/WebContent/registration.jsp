@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html style="height: 100%;">
 <head>
@@ -16,6 +18,7 @@
 			</a>
 		</nav>
 		<h1>Apes Together Strong</h1>
+		<c:out value="hello"></c:out>
 		<div class="row h-75">
 			<div class="col"></div>
 			<div class="col my-auto">
