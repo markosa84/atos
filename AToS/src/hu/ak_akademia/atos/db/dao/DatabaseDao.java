@@ -1,6 +1,9 @@
 package hu.ak_akademia.atos.db.dao;
 
+import java.util.List;
+
 import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
+import hu.ak_akademia.atos.db.resultsetreader.ResultSetReader;
 import hu.ak_akademia.atos.db.sqlbuilder.SqlBuilder;
 
 /**
@@ -14,7 +17,7 @@ public interface DatabaseDao<E> {
 
 	void create(SqlBuilder sqlBuilder, PreparedStatementWriter<E> preparedStatementWriter);
 
-	E read();
+	<C> List<E> read(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter, ResultSetReader<E> resultSetReader);
 
 	void update(E entity);
 

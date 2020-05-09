@@ -10,53 +10,59 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import hu.ak_akademia.atos.db.dao.CityDao;
 import hu.ak_akademia.atos.db.dao.CountryDao;
 import hu.ak_akademia.atos.db.dao.DatabaseDao;
 import hu.ak_akademia.atos.db.dao.GenderDao;
+import hu.ak_akademia.atos.db.dao.InterestDao;
 import hu.ak_akademia.atos.db.dao.UserInfoDao;
+import hu.ak_akademia.atos.db.dao.UserInterestMapDao;
 import hu.ak_akademia.atos.db.entity.City;
 import hu.ak_akademia.atos.db.entity.Country;
 import hu.ak_akademia.atos.db.entity.Gender;
+import hu.ak_akademia.atos.db.entity.Interest;
 import hu.ak_akademia.atos.db.entity.UserInfo;
+import hu.ak_akademia.atos.db.entity.UserInterestMap;
 import hu.ak_akademia.atos.db.preparedstatementwriter.CreateCityPreparedStatementWriter;
 import hu.ak_akademia.atos.db.preparedstatementwriter.CreateCountryPreparedStatementWriter;
 import hu.ak_akademia.atos.db.preparedstatementwriter.CreateGenderPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.CreateInterestPreparedStatementWriter;
 import hu.ak_akademia.atos.db.preparedstatementwriter.CreateUserInfoPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.CreateUserInterestMapPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.DummyPreparedStatementWriter;
+import hu.ak_akademia.atos.db.resultsetreader.city.SelectAllCityResultSetReader;
+import hu.ak_akademia.atos.db.resultsetreader.country.SelectAllCountryResultSetReader;
+import hu.ak_akademia.atos.db.resultsetreader.gender.SelectAllGenderResultSetReader;
+import hu.ak_akademia.atos.db.resultsetreader.interests.SelectAllInterestsResultSetReader;
+import hu.ak_akademia.atos.db.resultsetreader.userinfo.SelectAllUserInfoResultSetReader;
 import hu.ak_akademia.atos.db.sqlbuilder.city.CreateCitySqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.city.SelectAllCitySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.country.CreateCountrySqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.country.SelectAllCountrySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.gender.CreateGenderSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.gender.SelectAllGenderSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.interests.CreateInterestSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.interests.SelectAllInterestsSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllUserInfoSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.userinterestmap.CreateUserInterestMapSqlBuilder;
 
 public class InitDb {
 
 	private static final Random random = new Random(20200425);
-	private static final int LIMIT = 100;
+	private static final int USER_INFO_LIMIT = 1_000;
 
 	public static void main(String[] args) {
 		System.out.println("Adatbázis feltöltése mintaadatokkal elkezdődött.");
-		List<String> firstNames = load("res/first-names.txt");
-		List<String> lastNames = load("res/last-names.txt");
-		List<String> cities = load("res/cities.txt");
-		try {
-			long startTime = System.nanoTime();
-			for (int i = 0; i < LIMIT; i++) {
-				UserInfo userInfo = generateUserInfo(firstNames, lastNames, i);
-//				for (int j = 0; j < LIMIT; j++) {
-//					System.out.println(i + " / " + LIMIT + " kész.");
-//				}
-				if (i % 100 == 0) {
-					System.out.println(i + " / " + LIMIT + " kész.");
-				}
-			}
-			long endTime = System.nanoTime();
-			long elapsedTime = endTime - startTime;
-			System.out.println("Kész.");
-			System.out.println("Eltelt idő: " + (elapsedTime / 1_000_000_000L) + " másodperc.");
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+		List<String> countryAndCityNamesAndMappings = load("res/countries-cities.txt");
+		populateGender();
+		populateCountry(countryAndCityNamesAndMappings);
+		populateCity(countryAndCityNamesAndMappings);
+		populateInterest();
+		populateUserInfo();
+		populateUserInterestMap();
 	}
 
 	private static void populateGender() {
@@ -75,117 +81,188 @@ public class InitDb {
 		System.out.println("kész");
 	}
 
-	private static void populateCountry() {
+	private static void populateCountry(List<String> countryAndCityNamesAndMappings) {
 		System.out.print("Country tábla feltöltése...");
-		Country country1 = Country.builder()
-				.withName("Magyarország")
-				.build();
-		Country country2 = Country.builder()
-				.withName("USA")
-				.build();
+		List<String> countryNames = countryAndCityNamesAndMappings.stream()
+				.map(line -> line.split("\\t")[1].trim())
+				.distinct()
+				.sorted()
+				.collect(Collectors.toList());
 		DatabaseDao<Country> dao = new CountryDao();
 		dao.openConnection();
-		dao.create(new CreateCountrySqlBuilder(), new CreateCountryPreparedStatementWriter(country1));
-		dao.create(new CreateCountrySqlBuilder(), new CreateCountryPreparedStatementWriter(country2));
+		for (String countryName : countryNames) {
+			Country country = Country.builder()
+					.withName(countryName)
+					.build();
+			dao.create(new CreateCountrySqlBuilder(), new CreateCountryPreparedStatementWriter(country));
+		}
 		dao.closeConnection();
 		System.out.println("kész");
 	}
 
-	private static void populateCity() {
+	private static void populateCity(List<String> countryAndCityNamesAndMappings) {
 		System.out.print("City tábla feltöltése...");
-		City city1 = City.builder()
-				.withCountryId(1L)
-				.withName("Budapest")
-				.build();
-		City city2 = City.builder()
-				.withCountryId(1L)
-				.withName("Debrecen")
-				.build();
-		City city3 = City.builder()
-				.withCountryId(2L)
-				.withName("New York")
-				.build();
+		CountryDao countryDao = new CountryDao();
+		countryDao.openConnection();
+		List<Country> countries = countryDao.read(new SelectAllCountrySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCountryResultSetReader());
+		countryDao.closeConnection();
+		Map<String, Long> countryNameToCountryIdMap = countries.stream()
+				.collect(Collectors.toMap(Country::getName, Country::getCountryId));
+		List<City> cities = countryAndCityNamesAndMappings.stream()
+				.map(line -> City.builder()
+						.withCountryId(countryNameToCountryIdMap.get(line.split("\\t")[1]))
+						.withName(line.split("\\t")[0])
+						.build())
+				.collect(Collectors.toList());
 		DatabaseDao<City> dao = new CityDao();
 		dao.openConnection();
-		dao.create(new CreateCitySqlBuilder(), new CreateCityPreparedStatementWriter(city1));
-		dao.create(new CreateCitySqlBuilder(), new CreateCityPreparedStatementWriter(city2));
-		dao.create(new CreateCitySqlBuilder(), new CreateCityPreparedStatementWriter(city3));
+		for (City city : cities) {
+			dao.create(new CreateCitySqlBuilder(), new CreateCityPreparedStatementWriter(city));
+		}
 		dao.closeConnection();
 		System.out.println("kész");
+	}
+
+	private static void populateInterest() {
+		InterestDao interestDao = new InterestDao();
+		interestDao.openConnection();
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Társkeresés")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Kutyasétáltatás")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Szabadidőpartner")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Futópartner")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Társasjáték")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Ivócimbora")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Airsoft")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Paintball")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Koncertpartner")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Házibuli")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Kiállítás")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Couchsurfing")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Mozizás")
+				.build()));
+		interestDao.create(new CreateInterestSqlBuilder(), new CreateInterestPreparedStatementWriter(Interest.builder()
+				.withName("Kirándulás")
+				.build()));
+		interestDao.closeConnection();
 	}
 
 	private static void populateUserInfo() {
 		System.out.print("User_info tábla feltöltése...");
-		UserInfo userInfo = UserInfo.builder()
-				.withUserName("kardesz97")
-				.withFirstName("Milán")
-				.withLastName("Karda")
-				.withEmail("kardamilan@yahoo.hu")
-				.withPasswordHash("Password123")
-				.withCityId(1L)
-				.withDateOfBirth(LocalDate.of(1997, 03, 06))
-				.withGenderId(2L)
-				.build();
+		List<UserInfo> userInfos = generateUserInfo();
 		DatabaseDao<UserInfo> dao = new UserInfoDao();
 		dao.openConnection();
-		dao.create(new CreateUserInfoSqlBuilder(), new CreateUserInfoPreparedStatementWriter(userInfo));
+		for (UserInfo userInfo : userInfos) {
+			dao.create(new CreateUserInfoSqlBuilder(), new CreateUserInfoPreparedStatementWriter(userInfo));
+		}
 		dao.closeConnection();
 		System.out.println("kész");
 	}
 
-	private static UserInfo generateUserInfo(List<String> firstNames, List<String> lastNames, List<String> cities,
-			int counter) {
-		Random random = new Random();
-		String randomFirstName = firstNames.get(random.nextInt(firstNames.size()));
-		String randomLastName = lastNames.get(random.nextInt(lastNames.size()));
-		String email = randomFirstName + "." + randomLastName + "@gmail.com";
-		String username = randomLastName.substring(0, 3) + randomFirstName.substring(0, 3) + counter;
-		String passwordHash = randomLastName.substring(0, 2) + counter + randomFirstName.substring(0, 3) + counter + 3;
-		getRandomCityId(cities);
-		long randomDay = getRandomLocalDate(random);
-		getRandomGenderId(counter);
+	private static List<UserInfo> generateUserInfo() {
+		List<String> firstNames = load("res/first-names.txt");
+		List<String> lastNames = load("res/last-names.txt");
+		CityDao cityDao = new CityDao();
+		cityDao.openConnection();
+		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCityResultSetReader());
+		cityDao.closeConnection();
+		GenderDao genderDao = new GenderDao();
+		genderDao.openConnection();
+		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllGenderResultSetReader());
+		genderDao.closeConnection();
+		List<UserInfo> userInfos = new ArrayList<>(USER_INFO_LIMIT);
+		for (int counter = 0; counter < USER_INFO_LIMIT; counter++) {
+			String randomFirstName = firstNames.get(random.nextInt(firstNames.size()));
+			String randomLastName = lastNames.get(random.nextInt(lastNames.size()));
+			String email = randomFirstName + "." + randomLastName + "@gmail.com";
+			String username = randomLastName.substring(0, 3)
+					.toLowerCase()
+					+ randomFirstName.substring(0, 3)
+							.toLowerCase()
+					+ counter;
+			String passwordHash = new Random().ints(48, 123)
+					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+					.limit(10)
+					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+					.toString();
+			Long cityId = cities.get(random.nextInt(cities.size()))
+					.getCityId();
+			LocalDate dateOfBirth = LocalDate.of(random.nextInt(91) + 1920, random.nextInt(12) + 1, 1)
+					.plusDays(random.nextInt(31));
+			Long genderId = genders.get(random.nextInt(genders.size()))
+					.getGenderId();
+			Boolean showMeInSearch = random.nextBoolean();
+			Boolean showAllDetails = random.nextBoolean();
+			Boolean paid = random.nextBoolean();
 
-		UserInfo userInfo = UserInfo.builder()
-				.withUserName(removeAccents(username.toLowerCase()))
-				.withFirstName(randomFirstName)
-				.withLastName(randomLastName)
-				.withEmail(removeAccents(email).toLowerCase())
-				.withPasswordHash(passwordHash)
-				.withCityId(1L)
-				.withDateOfBirth(LocalDate.of(randomDay))
-				.withGenderId(getRandomGenderId(counter))
-				.build();
-
-		DatabaseDao<UserInfo> dao = new UserInfoDao();
-		dao.openConnection();
-		dao.create(new CreateUserInfoSqlBuilder(), new CreateUserInfoPreparedStatementWriter(userInfo));
-		dao.closeConnection();
-		return userInfo;
-	}
-
-	private static void getRandomGenderId(int counter) {
-		long randomGenderId;
-		if (counter % 2 == 0) {
-			randomGenderId = 1L;
-		} else {
-			randomGenderId = 2L;
+			UserInfo userInfo = UserInfo.builder()
+					.withUserName(removeAccents(username.toLowerCase()))
+					.withFirstName(randomFirstName)
+					.withLastName(randomLastName)
+					.withEmail(removeAccents(email).toLowerCase())
+					.withPasswordHash(passwordHash)
+					.withCityId(cityId)
+					.withDateOfBirth(dateOfBirth)
+					.withGenderId(genderId)
+					.withShowMeInSearch(showMeInSearch)
+					.withShowAllDetails(showAllDetails)
+					.withPaid(paid)
+					.build();
+			userInfos.add(userInfo);
 		}
+		return userInfos;
 	}
 
-	private static void getRandomCityId(List<String> cities) {
-		Map<Long, String> randomCity = new HashMap();
-		for (long i = 0; i < 58; i++) {
-			randomCity.put(i + 1, cities.get((int) i));
+	private static void populateUserInterestMap() {
+		System.out.print("User_interest_map tábla feltöltése...");
+		UserInfoDao userInfoDao = new UserInfoDao();
+		userInfoDao.openConnection();
+		List<UserInfo> users = userInfoDao.read(new SelectAllUserInfoSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllUserInfoResultSetReader());
+		userInfoDao.closeConnection();
+		InterestDao interestDao = new InterestDao();
+		interestDao.openConnection();
+		List<Interest> interests = interestDao.read(new SelectAllInterestsSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllInterestsResultSetReader());
+		interestDao.closeConnection();
+		UserInterestMapDao userInterestMapDao = new UserInterestMapDao();
+		userInterestMapDao.openConnection();
+		for (UserInfo user : users) {
+			int numberOfInterests = random.nextInt(3) + 1;
+			for (int i = 0; i < numberOfInterests; i++) {
+				int randomIndex = random.nextInt(interests.size());
+				Interest randomInterest = interests.get(randomIndex);
+				UserInterestMap userInterestMap = UserInterestMap.builder()
+						.withUsername(user.getUserName())
+						.withInterestId(randomInterest.getInterestId())
+						.build();
+				userInterestMapDao.create(new CreateUserInterestMapSqlBuilder(), new CreateUserInterestMapPreparedStatementWriter(userInterestMap));
+			}
 		}
-	}
-
-	private static long getRandomLocalDate(Random random) {
-		int minDay = (int) LocalDate.of(1920, 1, 1)
-				.toEpochDay();
-		int maxDay = (int) LocalDate.of(2019, 1, 1)
-				.toEpochDay();
-		long randomDay = minDay + random.nextInt(maxDay - minDay);
-		return randomDay;
+		userInterestMapDao.closeConnection();
+		System.out.println("kész");
 	}
 
 	private static String removeAccents(String text) {
