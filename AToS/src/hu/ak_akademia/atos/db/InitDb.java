@@ -133,23 +133,27 @@ public class InitDb {
 		System.out.println("kész");
 	}
 
-	private static UserInfo generateUserInfo(List<String> firstNames, List<String> lastNames, int counter) {
+	private static UserInfo generateUserInfo(List<String> firstNames, List<String> lastNames, List<String> cities,
+			int counter) {
 		Random random = new Random();
 		String randomFirstName = firstNames.get(random.nextInt(firstNames.size()));
 		String randomLastName = lastNames.get(random.nextInt(lastNames.size()));
 		String email = randomFirstName + "." + randomLastName + "@gmail.com";
 		String username = randomLastName.substring(0, 3) + randomFirstName.substring(0, 3) + counter;
-		String passwordHash;
+		String passwordHash = randomLastName.substring(0, 2) + counter + randomFirstName.substring(0, 3) + counter + 3;
+		getRandomCityId(cities);
+		long randomDay = getRandomLocalDate(random);
+		getRandomGenderId(counter);
 
 		UserInfo userInfo = UserInfo.builder()
 				.withUserName(removeAccents(username.toLowerCase()))
 				.withFirstName(randomFirstName)
 				.withLastName(randomLastName)
 				.withEmail(removeAccents(email).toLowerCase())
-				.withPasswordHash("Password123")
+				.withPasswordHash(passwordHash)
 				.withCityId(1L)
-				.withDateOfBirth(LocalDate.of(1997, 03, 06))
-				.withGenderId(2L)
+				.withDateOfBirth(LocalDate.of(randomDay))
+				.withGenderId(getRandomGenderId(counter))
 				.build();
 
 		DatabaseDao<UserInfo> dao = new UserInfoDao();
@@ -157,6 +161,31 @@ public class InitDb {
 		dao.create(new CreateUserInfoSqlBuilder(), new CreateUserInfoPreparedStatementWriter(userInfo));
 		dao.closeConnection();
 		return userInfo;
+	}
+
+	private static void getRandomGenderId(int counter) {
+		long randomGenderId;
+		if (counter % 2 == 0) {
+			randomGenderId = 1L;
+		} else {
+			randomGenderId = 2L;
+		}
+	}
+
+	private static void getRandomCityId(List<String> cities) {
+		Map<Long, String> randomCity = new HashMap();
+		for (long i = 0; i < 58; i++) {
+			randomCity.put(i + 1, cities.get((int) i));
+		}
+	}
+
+	private static long getRandomLocalDate(Random random) {
+		int minDay = (int) LocalDate.of(1920, 1, 1)
+				.toEpochDay();
+		int maxDay = (int) LocalDate.of(2019, 1, 1)
+				.toEpochDay();
+		long randomDay = minDay + random.nextInt(maxDay - minDay);
+		return randomDay;
 	}
 
 	private static String removeAccents(String text) {
