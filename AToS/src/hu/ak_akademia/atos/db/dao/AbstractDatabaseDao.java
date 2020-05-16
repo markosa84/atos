@@ -19,8 +19,9 @@ public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 	@Override
 	public void openConnection() {
 		try {
+			Class.forName("org.postgresql.Driver");
 			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/atos", "atos", "admin");
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			throw new AtosRuntimeException("Az adatbázishoz való csatlakozás sikertelen.", e);
 		}
 	}
