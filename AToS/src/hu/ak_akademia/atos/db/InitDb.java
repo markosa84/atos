@@ -57,6 +57,7 @@ public class InitDb {
 	public static void main(String[] args) {
 		System.out.println("Adatbázis feltöltése mintaadatokkal elkezdődött.");
 		List<String> countryAndCityNamesAndMappings = load("res/countries-cities.txt");
+
 		populateGender();
 		populateCountry(countryAndCityNamesAndMappings);
 		populateCity(countryAndCityNamesAndMappings);
@@ -104,7 +105,8 @@ public class InitDb {
 		System.out.print("City tábla feltöltése...");
 		CountryDao countryDao = new CountryDao();
 		countryDao.openConnection();
-		List<Country> countries = countryDao.read(new SelectAllCountrySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCountryResultSetReader());
+		List<Country> countries = countryDao.read(new SelectAllCountrySqlBuilder(), new DummyPreparedStatementWriter(),
+				new SelectAllCountryResultSetReader());
 		countryDao.closeConnection();
 		Map<String, Long> countryNameToCountryIdMap = countries.stream()
 				.collect(Collectors.toMap(Country::getName, Country::getCountryId));
@@ -188,11 +190,13 @@ public class InitDb {
 		List<String> lastNames = load("res/last-names.txt");
 		CityDao cityDao = new CityDao();
 		cityDao.openConnection();
-		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCityResultSetReader());
+		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(),
+				new SelectAllCityResultSetReader());
 		cityDao.closeConnection();
 		GenderDao genderDao = new GenderDao();
 		genderDao.openConnection();
-		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllGenderResultSetReader());
+		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(),
+				new SelectAllGenderResultSetReader());
 		genderDao.closeConnection();
 		List<UserInfo> userInfos = new ArrayList<>(USER_INFO_LIMIT);
 		for (int counter = 0; counter < USER_INFO_LIMIT; counter++) {
@@ -241,11 +245,13 @@ public class InitDb {
 		System.out.print("User_interest_map tábla feltöltése...");
 		UserInfoDao userInfoDao = new UserInfoDao();
 		userInfoDao.openConnection();
-		List<UserInfo> users = userInfoDao.read(new SelectAllUserInfoSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllUserInfoResultSetReader());
+		List<UserInfo> users = userInfoDao.read(new SelectAllUserInfoSqlBuilder(), new DummyPreparedStatementWriter(),
+				new SelectAllUserInfoResultSetReader());
 		userInfoDao.closeConnection();
 		InterestDao interestDao = new InterestDao();
 		interestDao.openConnection();
-		List<Interest> interests = interestDao.read(new SelectAllInterestsSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllInterestsResultSetReader());
+		List<Interest> interests = interestDao.read(new SelectAllInterestsSqlBuilder(),
+				new DummyPreparedStatementWriter(), new SelectAllInterestsResultSetReader());
 		interestDao.closeConnection();
 		UserInterestMapDao userInterestMapDao = new UserInterestMapDao();
 		userInterestMapDao.openConnection();
@@ -258,7 +264,8 @@ public class InitDb {
 						.withUsername(user.getUserName())
 						.withInterestId(randomInterest.getInterestId())
 						.build();
-				userInterestMapDao.create(new CreateUserInterestMapSqlBuilder(), new CreateUserInterestMapPreparedStatementWriter(userInterestMap));
+				userInterestMapDao.create(new CreateUserInterestMapSqlBuilder(),
+						new CreateUserInterestMapPreparedStatementWriter(userInterestMap));
 			}
 		}
 		userInterestMapDao.closeConnection();

@@ -17,10 +17,12 @@ public interface DatabaseDao<E> {
 
 	void create(SqlBuilder sqlBuilder, PreparedStatementWriter<E> preparedStatementWriter);
 
-	<C> List<E> read(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter, ResultSetReader<E> resultSetReader);
+	<C> List<E> read(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter,
+			ResultSetReader<E> resultSetReader);
 
 	void update(E entity);
 
+//	void delete(SqlBuilder sqlBuilder, PreparedStatementWriter<E> preparedStatementWriter);
 	void delete(E entity);
 
 	void closeConnection();

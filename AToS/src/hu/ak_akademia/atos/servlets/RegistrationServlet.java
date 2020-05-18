@@ -9,21 +9,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import hu.ak_akademia.atos.db.dao.CityDao;
+import hu.ak_akademia.atos.db.dao.GenderDao;
 import hu.ak_akademia.atos.db.entity.City;
+import hu.ak_akademia.atos.db.entity.Gender;
 import hu.ak_akademia.atos.db.preparedstatementwriter.DummyPreparedStatementWriter;
 import hu.ak_akademia.atos.db.resultsetreader.city.SelectAllCityResultSetReader;
+import hu.ak_akademia.atos.db.resultsetreader.gender.SelectAllGenderResultSetReader;
 import hu.ak_akademia.atos.db.sqlbuilder.city.SelectAllCitySqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.gender.SelectAllGenderSqlBuilder;
 
 public class RegistrationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		CityDao dao = new CityDao();
-		dao.openConnection();
-		List<City> cities = dao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCityResultSetReader());
-		dao.closeConnection();
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		CityDao cityDao = new CityDao();
+		GenderDao genderDao = new GenderDao();
+		cityDao.openConnection();
+		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(),
+				new SelectAllCityResultSetReader());
+		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(),
+				new SelectAllGenderResultSetReader());
+		cityDao.closeConnection();
 		request.setAttribute("cities", cities);
+		request.setAttribute("gender", genders);
 		request.getRequestDispatcher("/registration.jsp")
 				.forward(request, response);
 	}
