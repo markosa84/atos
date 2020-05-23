@@ -69,10 +69,10 @@ public class InitDb {
 	private static void populateGender() {
 		System.out.print("Gender tábla feltöltése...");
 		Gender gender1 = Gender.builder()
-				.withName("nő")
+				.withName("Woman")
 				.build();
 		Gender gender2 = Gender.builder()
-				.withName("férfi")
+				.withName("Man")
 				.build();
 		DatabaseDao<Gender> dao = new GenderDao();
 		dao.openConnection();

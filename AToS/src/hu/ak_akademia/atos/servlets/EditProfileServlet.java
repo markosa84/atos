@@ -18,7 +18,7 @@ import hu.ak_akademia.atos.db.resultsetreader.gender.SelectAllGenderResultSetRea
 import hu.ak_akademia.atos.db.sqlbuilder.city.SelectAllCitySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.gender.SelectAllGenderSqlBuilder;
 
-public class RegistrationServlet extends HttpServlet {
+public class EditProfileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +39,7 @@ public class RegistrationServlet extends HttpServlet {
 		request.setAttribute("cities", cities);
 		request.setAttribute("genders", genders);
 
-		request.getRequestDispatcher("/registration.jsp")
+		request.getRequestDispatcher("/editProfile.jsp")
 				.forward(request, response);
 	}
 

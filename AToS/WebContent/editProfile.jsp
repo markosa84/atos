@@ -20,7 +20,7 @@
 		<div class="row h-75">
 			<div class="col"></div>
 			<div class="col my-auto">
-				<h2>Register</h2>
+				<h2>Edit Profile</h2>
 				<!-- <form action="login" class="was-validated" method="post"> -->
 				<form action="register" method="post">
 					<div class="form-group">
@@ -85,7 +85,7 @@
 							</label>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Register</button>
+					<button type="submit" class="btn btn-primary">Save</button>
 				</form>
 			</div>
 			<div class="col"></div>
