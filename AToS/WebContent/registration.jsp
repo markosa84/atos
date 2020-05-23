@@ -65,8 +65,9 @@
 					<div class="form-group">
 						<label for="gender">Gender:</label>
 						<select class="form-control" id="gender" name="gender">
-							<option>Female</option>
-							<option>Male</option>
+							<c:forEach var="gender" items="${genders}">
+								<option value="${gender.genderId}">${gender.name}</option>
+							</c:forEach>
 						</select>
 					</div>
 					<div class="form-group">

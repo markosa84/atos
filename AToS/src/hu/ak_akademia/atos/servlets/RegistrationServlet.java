@@ -22,18 +22,20 @@ public class RegistrationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CityDao cityDao = new CityDao();
-		GenderDao genderDao = new GenderDao();
 		cityDao.openConnection();
-		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllCityResultSetReader());
-		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllGenderResultSetReader());
+		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCityResultSetReader());
 		cityDao.closeConnection();
+
+		GenderDao genderDao = new GenderDao();
+		genderDao.openConnection();
+		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllGenderResultSetReader());
+		genderDao.closeConnection();
+
 		request.setAttribute("cities", cities);
-		request.setAttribute("gender", genders);
+		request.setAttribute("genders", genders);
+
 		request.getRequestDispatcher("/registration.jsp")
 				.forward(request, response);
 	}
