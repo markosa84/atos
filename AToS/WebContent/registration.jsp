@@ -53,6 +53,7 @@
 						<label for="city">City:</label>
 						<select class="form-control" id="city" name="city">
 							<c:forEach var="city" items="${cities}">
+								<option>Please select your city</option>
 								<option value="${city.cityId}">${city.name}</option>
 							</c:forEach>
 						</select>
@@ -65,6 +66,7 @@
 						<label for="gender">Gender:</label>
 						<select class="form-control" id="gender" name="gender">
 							<c:forEach var="gender" items="${genders}">
+								<option>Please select your gender</option>
 								<option value="${gender.genderId}">${gender.name}</option>
 							</c:forEach>
 						</select>
