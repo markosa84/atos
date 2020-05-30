@@ -1,9 +1,10 @@
-package hu.ak_akademia.atos.db.preparedstatementwriter;
+package hu.ak_akademia.atos.db.preparedstatementwriter.city;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import hu.ak_akademia.atos.db.entity.City;
+import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
 
 public class CreateCityPreparedStatementWriter implements PreparedStatementWriter<City> {
 

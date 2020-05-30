@@ -7,38 +7,36 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import hu.ak_akademia.atos.db.dao.CityDao;
-import hu.ak_akademia.atos.db.dao.GenderDao;
 import hu.ak_akademia.atos.db.dao.UserInfoDao;
-import hu.ak_akademia.atos.db.entity.City;
-import hu.ak_akademia.atos.db.entity.Gender;
 import hu.ak_akademia.atos.db.entity.UserInfo;
-import hu.ak_akademia.atos.db.preparedstatementwriter.DummyPreparedStatementWriter;
-import hu.ak_akademia.atos.db.resultsetreader.city.SelectAllCityResultSetReader;
-import hu.ak_akademia.atos.db.resultsetreader.gender.SelectAllGenderResultSetReader;
+import hu.ak_akademia.atos.db.preparedstatementwriter.userinfo.SelectAllByIdAndPasswordUserInfoPreparedStatementWriter;
 import hu.ak_akademia.atos.db.resultsetreader.userinfo.SelectAllUserInfoResultSetReader;
-import hu.ak_akademia.atos.db.sqlbuilder.city.SelectAllCitySqlBuilder;
-import hu.ak_akademia.atos.db.sqlbuilder.gender.SelectAllGenderSqlBuilder;
-import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllUserInfoSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllByIdAndPasswordUserInfoSqlBuilder;
+import hu.ak_akademia.atos.util.PasswordHandler;
 
 public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String passwordHash = PasswordHandler.generateHash(password);
 
 		UserInfoDao userInfoDao = new UserInfoDao();
 		userInfoDao.openConnection();
-		List<UserInfo> users = userInfoDao.read(new SelectAllUserInfoSqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllUserInfoResultSetReader());
+		List<UserInfo> userInfos = userInfoDao.read(new SelectAllByIdAndPasswordUserInfoSqlBuilder(), new SelectAllByIdAndPasswordUserInfoPreparedStatementWriter(username, passwordHash), new SelectAllUserInfoResultSetReader());
 		userInfoDao.closeConnection();
 
-		request.setAttribute("users", users);
-
-		request.getRequestDispatcher("/editProfile.jsp")
-				.forward(request, response);
+		if (userInfos.isEmpty()) {
+			response.sendRedirect(request.getContextPath() + "/login.jsp?invalidUsernameOrPassword=true");
+		} else {
+			HttpSession session = request.getSession();
+			session.setAttribute("loggedInUser", userInfos.get(0));
+			response.sendRedirect(request.getContextPath() + "/auth/index.jsp");
+		}
 	}
 
 }

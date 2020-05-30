@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html style="height: 100%;">
 <head>
@@ -11,8 +13,7 @@
 <body style="height: 100%;">
 	<div class="container h-100">
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-			<a class="navbar-brand" href="#"> <img src="images/logo.png" alt="logo" style="width: 60px; height: 60px;">
-			</a>
+			<a class="navbar-brand" href="#"><img src="<c:out value="${pageContext.servletContext.contextPath}" />/images/logo.png" alt="logo" style="width: 60px; height: 60px;"> </a>
 		</nav>
 		<h1>Apes Together Strong</h1>
 		<!-- 		<form action="login" class="was-validated" method="post"> -->
@@ -33,6 +34,9 @@
 						<div class="valid-feedback">Valid.</div>
 						<div class="invalid-feedback">Please specify a password!</div>
 					</div>
+					<c:if test="${param.invalidUsernameOrPassword}">
+						<p class="text-danger">Invalid username or password.</p>
+					</c:if>
 					<button type="submit" class="btn btn-primary" href="editProfile">Login</button>
 				</form>
 				<div class="mt-3">

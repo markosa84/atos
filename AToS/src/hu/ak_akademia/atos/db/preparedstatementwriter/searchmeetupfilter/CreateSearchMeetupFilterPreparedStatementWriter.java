@@ -1,10 +1,11 @@
-package hu.ak_akademia.atos.db.preparedstatementwriter;
+package hu.ak_akademia.atos.db.preparedstatementwriter.searchmeetupfilter;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import hu.ak_akademia.atos.db.entity.SearchMeetupFilter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
 
 public class CreateSearchMeetupFilterPreparedStatementWriter implements PreparedStatementWriter<SearchMeetupFilter> {
 

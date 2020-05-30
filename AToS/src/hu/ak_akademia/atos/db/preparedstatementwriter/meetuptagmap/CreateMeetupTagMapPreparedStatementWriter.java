@@ -1,9 +1,10 @@
-package hu.ak_akademia.atos.db.preparedstatementwriter;
+package hu.ak_akademia.atos.db.preparedstatementwriter.meetuptagmap;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import hu.ak_akademia.atos.db.entity.MeetupTagMap;
+import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
 
 public class CreateMeetupTagMapPreparedStatementWriter implements PreparedStatementWriter<MeetupTagMap> {
 

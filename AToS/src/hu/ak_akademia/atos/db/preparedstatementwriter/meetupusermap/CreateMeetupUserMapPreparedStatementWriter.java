@@ -1,9 +1,10 @@
-package hu.ak_akademia.atos.db.preparedstatementwriter;
+package hu.ak_akademia.atos.db.preparedstatementwriter.meetupusermap;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import hu.ak_akademia.atos.db.entity.MeetupUserMap;
+import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
 
 public class CreateMeetupUserMapPreparedStatementWriter implements PreparedStatementWriter<MeetupUserMap> {
 

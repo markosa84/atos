@@ -2,6 +2,9 @@ package hu.ak_akademia.atos.db;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +15,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import hu.ak_akademia.atos.db.dao.AbstractDatabaseDao;
 import hu.ak_akademia.atos.db.dao.CityDao;
 import hu.ak_akademia.atos.db.dao.CountryDao;
 import hu.ak_akademia.atos.db.dao.DatabaseDao;
@@ -25,13 +29,13 @@ import hu.ak_akademia.atos.db.entity.Gender;
 import hu.ak_akademia.atos.db.entity.Interest;
 import hu.ak_akademia.atos.db.entity.UserInfo;
 import hu.ak_akademia.atos.db.entity.UserInterestMap;
-import hu.ak_akademia.atos.db.preparedstatementwriter.CreateCityPreparedStatementWriter;
-import hu.ak_akademia.atos.db.preparedstatementwriter.CreateCountryPreparedStatementWriter;
-import hu.ak_akademia.atos.db.preparedstatementwriter.CreateGenderPreparedStatementWriter;
-import hu.ak_akademia.atos.db.preparedstatementwriter.CreateInterestPreparedStatementWriter;
-import hu.ak_akademia.atos.db.preparedstatementwriter.CreateUserInfoPreparedStatementWriter;
-import hu.ak_akademia.atos.db.preparedstatementwriter.CreateUserInterestMapPreparedStatementWriter;
 import hu.ak_akademia.atos.db.preparedstatementwriter.DummyPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.city.CreateCityPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.country.CreateCountryPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.gender.CreateGenderPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.interests.CreateInterestPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.userinfo.CreateUserInfoPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.userinterestmap.CreateUserInterestMapPreparedStatementWriter;
 import hu.ak_akademia.atos.db.resultsetreader.city.SelectAllCityResultSetReader;
 import hu.ak_akademia.atos.db.resultsetreader.country.SelectAllCountryResultSetReader;
 import hu.ak_akademia.atos.db.resultsetreader.gender.SelectAllGenderResultSetReader;
@@ -49,14 +53,27 @@ import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllUserInfoSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinterestmap.CreateUserInterestMapSqlBuilder;
 
-public class InitDb {
+public class InitDb extends AbstractDatabaseDao<Object> {
 
 	private static final Random random = new Random(20200425);
 	private static final int USER_INFO_LIMIT = 1_000;
 
 	public static void main(String[] args) {
+		try {
+			new InitDb().run();
+		} catch (IOException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void run() throws FileNotFoundException, IOException, SQLException {
 		System.out.println("Adatbázis feltöltése mintaadatokkal elkezdődött.");
 		List<String> countryAndCityNamesAndMappings = load("res/countries-cities.txt");
+
+		openConnection();
+		ScriptRunner scriptRunner = new ScriptRunner(connection, false, false);
+		scriptRunner.runScript(new FileReader("db/init-db.sql"));
+		closeConnection();
 
 		populateGender();
 		populateCountry(countryAndCityNamesAndMappings);
@@ -105,8 +122,7 @@ public class InitDb {
 		System.out.print("City tábla feltöltése...");
 		CountryDao countryDao = new CountryDao();
 		countryDao.openConnection();
-		List<Country> countries = countryDao.read(new SelectAllCountrySqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllCountryResultSetReader());
+		List<Country> countries = countryDao.read(new SelectAllCountrySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCountryResultSetReader());
 		countryDao.closeConnection();
 		Map<String, Long> countryNameToCountryIdMap = countries.stream()
 				.collect(Collectors.toMap(Country::getName, Country::getCountryId));
@@ -190,13 +206,11 @@ public class InitDb {
 		List<String> lastNames = load("res/last-names.txt");
 		CityDao cityDao = new CityDao();
 		cityDao.openConnection();
-		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllCityResultSetReader());
+		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCityResultSetReader());
 		cityDao.closeConnection();
 		GenderDao genderDao = new GenderDao();
 		genderDao.openConnection();
-		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllGenderResultSetReader());
+		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllGenderResultSetReader());
 		genderDao.closeConnection();
 		List<UserInfo> userInfos = new ArrayList<>(USER_INFO_LIMIT);
 		for (int counter = 0; counter < USER_INFO_LIMIT; counter++) {
@@ -245,13 +259,11 @@ public class InitDb {
 		System.out.print("User_interest_map tábla feltöltése...");
 		UserInfoDao userInfoDao = new UserInfoDao();
 		userInfoDao.openConnection();
-		List<UserInfo> users = userInfoDao.read(new SelectAllUserInfoSqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllUserInfoResultSetReader());
+		List<UserInfo> users = userInfoDao.read(new SelectAllUserInfoSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllUserInfoResultSetReader());
 		userInfoDao.closeConnection();
 		InterestDao interestDao = new InterestDao();
 		interestDao.openConnection();
-		List<Interest> interests = interestDao.read(new SelectAllInterestsSqlBuilder(),
-				new DummyPreparedStatementWriter(), new SelectAllInterestsResultSetReader());
+		List<Interest> interests = interestDao.read(new SelectAllInterestsSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllInterestsResultSetReader());
 		interestDao.closeConnection();
 		UserInterestMapDao userInterestMapDao = new UserInterestMapDao();
 		userInterestMapDao.openConnection();
@@ -264,8 +276,7 @@ public class InitDb {
 						.withUsername(user.getUserName())
 						.withInterestId(randomInterest.getInterestId())
 						.build();
-				userInterestMapDao.create(new CreateUserInterestMapSqlBuilder(),
-						new CreateUserInterestMapPreparedStatementWriter(userInterestMap));
+				userInterestMapDao.create(new CreateUserInterestMapSqlBuilder(), new CreateUserInterestMapPreparedStatementWriter(userInterestMap));
 			}
 		}
 		userInterestMapDao.closeConnection();

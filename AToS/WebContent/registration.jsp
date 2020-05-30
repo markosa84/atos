@@ -25,56 +25,83 @@
 				<form action="register" method="post">
 					<div class="form-group">
 						<label for="username">Username</label>
-						<input type="text" class="form-control" id="username" name="username" placeholder="Enter username">
+						<input type="text" class="form-control<c:if test="${usernameInvalid}"> is-invalid</c:if>" id="username" name="username" placeholder="Enter username" value="${username}">
+						<c:if test="${usernameInvalid}">
+							<p class="text-danger">Invalid username.</p>
+						</c:if>
 					</div>
 					<div class="form-group">
 						<label for="email">E-mail</label>
-						<input type="email" class="form-control" id="email" name="email" placeholder="Enter e-mail">
+						<input type="email" class="form-control<c:if test="${emailInvalid}"> is-invalid</c:if>" id="email" name="email" placeholder="Enter e-mail" value="${email}">
+						<c:if test="${emailInvalid}">
+							<p class="text-danger">Invalid e-mail address.</p>
+						</c:if>
 					</div>
 					<div class="form-group">
 						<label for="password">Password</label>
-						<input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
+						<input type="password" class="form-control<c:if test="${passwordInvalid}"> is-invalid</c:if>" id="password" name="password" placeholder="Enter password">
+						<c:if test="${passwordInvalid}">
+							<p class="text-danger">Invalid password.</p>
+						</c:if>
 					</div>
 					<div class="form-group">
 						<label for="passwordConfirm">Password Confirmation</label>
-						<input type="password" class="form-control" id="passwordConfirm" name="passwordConfirm" placeholder="Enter password again">
+						<input type="password" class="form-control<c:if test="${passwordConfirmInvalid}"> is-invalid</c:if>" id="passwordConfirm" name="passwordConfirm" placeholder="Enter password again">
+						<c:if test="${passwordConfirmInvalid}">
+							<p class="text-danger">Invalid password confirmation.</p>
+						</c:if>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="firstName">First name</label>
-							<input type="text" class="form-control" id="firstName" name="firstName">
+							<input type="text" class="form-control<c:if test="${firstNameInvalid}"> is-invalid</c:if>" id="firstName" name="firstName" value="${firstName}">
+							<c:if test="${firstNameInvalid}">
+								<p class="text-danger">Invalid first name.</p>
+							</c:if>
 						</div>
 						<div class="form-group col-md-6">
 							<label for="lastName">Last name</label>
-							<input type="text" class="form-control" id="lastName" name="lastName">
+							<input type="text" class="form-control<c:if test="${lastNameInvalid}"> is-invalid</c:if>" id="lastName" name="lastName" value="${lastName}">
+							<c:if test="${lastNameInvalid}">
+								<p class="text-danger">Invalid last name.</p>
+							</c:if>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="city">City:</label>
-						<select class="form-control" id="city" name="city">
-							<c:forEach var="city" items="${cities}">
-								<option>Please select your city</option>
-								<option value="${city.cityId}">${city.name}</option>
+						<select class="form-control<c:if test="${cityInvalid}"> is-invalid</c:if>" id="city" name="city">
+							<option <c:if test="${city == -1}">selected="selected"</c:if> value="-1">Please select your city</option>
+							<c:forEach var="cityItem" items="${cities}">
+								<option <c:if test="${cityItem.cityId == city}">selected="selected"</c:if> value="${cityItem.cityId}">${cityItem.name}</option>
 							</c:forEach>
 						</select>
+						<c:if test="${cityInvalid}">
+							<p class="text-danger">Invalid city.</p>
+						</c:if>
 					</div>
 					<div class="form-group">
 						<label for="dateOfBirth">Date of Birth:</label>
-						<input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Enter birth date">
+						<input type="date" class="form-control<c:if test="${dateOfBirthInvalid}"> is-invalid</c:if>" id="dateOfBirth" name="dateOfBirth" placeholder="Enter birth date" value="${dateOfBirth}">
+						<c:if test="${dateOfBirthInvalid}">
+							<p class="text-danger">Invalid date of birth.</p>
+						</c:if>
 					</div>
 					<div class="form-group">
 						<label for="gender">Gender:</label>
-						<select class="form-control" id="gender" name="gender">
-							<c:forEach var="gender" items="${genders}">
-								<option>Please select your gender</option>
-								<option value="${gender.genderId}">${gender.name}</option>
+						<select class="form-control<c:if test="${genderInvalid}"> is-invalid</c:if>" id="gender" name="gender">
+							<option <c:if test="${gender == -1}">selected="selected"</c:if> value="-1">Please select your gender</option>
+							<c:forEach var="genderItem" items="${genders}">
+								<option <c:if test="${genderItem.genderId == gender}">selected="selected"</c:if> value="${genderItem.genderId}">${genderItem.name}</option>
 							</c:forEach>
 						</select>
+						<c:if test="${genderInvalid}">
+							<p class="text-danger">Invalid gender.</p>
+						</c:if>
 					</div>
 					<div class="form-group">
 						<div class="form-check">
 							<label class="form-check-label" data-toggle="tooltip" title="Selecting this will make you show up in searches.">
-								<input type="checkbox" class="form-check-input" name="showMeInSearch" value="">
+								<input type="checkbox" class="form-check-input" name="showMeInSearch" value="" <c:if test="${showMeInSearch != null}">checked="checked"</c:if>>
 								Show me in search
 							</label>
 						</div>
@@ -82,7 +109,7 @@
 					<div class="form-group">
 						<div class="form-check">
 							<label class="form-check-label" data-toggle="tooltip" title="Selecting this will make all your personal data to show up for others on your profile page.">
-								<input type="checkbox" class="form-check-input" name="showAllDetails" value="">
+								<input type="checkbox" class="form-check-input" name="showAllDetails" value="" <c:if test="${showAllDetails != null}">checked="checked"</c:if>>
 								Show all details
 							</label>
 						</div>

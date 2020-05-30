@@ -1,10 +1,11 @@
-package hu.ak_akademia.atos.db.preparedstatementwriter;
+package hu.ak_akademia.atos.db.preparedstatementwriter.meetup;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import hu.ak_akademia.atos.db.entity.Meetup;
+import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
 
 public class CreateMeetupPreparedStatementWriter implements PreparedStatementWriter<Meetup> {
 
