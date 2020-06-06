@@ -8,32 +8,60 @@
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<title>Registration</title>
+<title>Edit Profile</title>
 </head>
 <body style="height: 100%;">
 	<div class="container h-100">
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-			<a class="navbar-brand" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp"><img src="<c:out value="${pageContext.servletContext.contextPath}" />/images/logo.png" alt="logo" style="width: 60px; height: 60px;"></a>
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="mainNav">
+			<div class="container">
+				<a class="navbar-brand" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp"><img src="<c:out value="${pageContext.servletContext.contextPath}" />/images/logo.png" alt="logo" style="width: 60px; height: 60px;"></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
+					<ul class="navbar-nav mr-auto align-items-center">
+						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp">Home</a></li>
+						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadProfile">Edit profile</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Search user</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Manage Meetups</a></li>
+						<li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
+					</ul>
+					<ul class="navbar-nav ml-auto align-items-center">
+						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/logout">Logout</a></li>
+					</ul>
+				</div>
+			</div>
 		</nav>
-		<h1>Apes Together Strong</h1>
 		<div class="row h-75">
 			<div class="col"></div>
 			<div class="col my-auto">
-				<h2>Register</h2>
-				<!-- <form action="login" class="was-validated" method="post"> -->
-				<form action="register" method="post">
+				<h2>Edit Profile</h2>
+				<c:if test="${saveSuccessful}">
+					<div class="alert alert-success alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<strong>Save successful!</strong>
+					</div>
+				</c:if>
+				<form action="saveProfile" method="post">
 					<div class="form-group">
 						<label for="username">Username</label>
-						<input type="text" class="form-control<c:if test="${usernameInvalid}"> is-invalid</c:if>" id="username" name="username" placeholder="Enter username" value="${username}">
+						<input type="text" class="form-control<c:if test="${usernameInvalid}"> is-invalid</c:if>" id="username" name="username" placeholder="Enter username" value="${username}" readonly="readonly">
 						<c:if test="${usernameInvalid}">
 							<p class="text-danger">Invalid username.</p>
 						</c:if>
 					</div>
 					<div class="form-group">
 						<label for="email">E-mail</label>
-						<input type="email" class="form-control<c:if test="${emailInvalid}"> is-invalid</c:if>" id="email" name="email" placeholder="Enter e-mail" value="${email}">
+						<input type="email" class="form-control<c:if test="${emailInvalid}"> is-invalid</c:if>" id="email" name="email" placeholder="Enter e-mail" value="${email}" readonly="readonly">
 						<c:if test="${emailInvalid}">
 							<p class="text-danger">Invalid e-mail address.</p>
+						</c:if>
+					</div>
+					<div class="form-group">
+						<label for="password">Old Password</label>
+						<input type="password" class="form-control<c:if test="${oldPasswordInvalid}"> is-invalid</c:if>" id="oldPassword" name="oldPassword" placeholder="Enter old password">
+						<c:if test="${oldPasswordInvalid}">
+							<p class="text-danger">Invalid old password.</p>
 						</c:if>
 					</div>
 					<div class="form-group">
@@ -113,7 +141,7 @@
 							</label>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Register</button>
+					<button type="submit" class="btn btn-primary">Save</button>
 				</form>
 			</div>
 			<div class="col"></div>

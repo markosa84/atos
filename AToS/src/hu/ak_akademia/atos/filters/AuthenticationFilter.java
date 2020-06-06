@@ -22,12 +22,15 @@ public class AuthenticationFilter implements Filter {
 				.equals(loginURI);
 		boolean isLoginPage = httpRequest.getRequestURI()
 				.endsWith("login.jsp");
+		boolean isImage = httpRequest.getRequestURI()
+				.contains("/images/");
+
 		if (isLoggedIn && (isLoginRequest || isLoginPage)) {
 			// the admin is already logged in and he's trying to login again
 			// then forwards to the admin's homepage
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/index.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/auth/home.jsp");
 			dispatcher.forward(request, response);
-		} else if (isLoggedIn || isLoginRequest) {
+		} else if (isLoggedIn || isLoginRequest || isImage) {
 			// continues the filter chain
 			// allows the request to reach the destination
 			chain.doFilter(request, response);

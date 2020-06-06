@@ -13,10 +13,9 @@
 <body style="height: 100%;">
 	<div class="container h-100">
 		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-			<a class="navbar-brand" href="#"><img src="<c:out value="${pageContext.servletContext.contextPath}" />/images/logo.png" alt="logo" style="width: 60px; height: 60px;"> </a>
+			<a class="navbar-brand" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp"><img src="<c:out value="${pageContext.servletContext.contextPath}" />/images/logo.png" alt="logo" style="width: 60px; height: 60px;"></a>
 		</nav>
 		<h1>Apes Together Strong</h1>
-		<!-- 		<form action="login" class="was-validated" method="post"> -->
 		<div class="row h-75">
 			<div class="col"></div>
 			<div class="col my-auto">
@@ -37,13 +36,10 @@
 					<c:if test="${param.invalidUsernameOrPassword}">
 						<p class="text-danger">Invalid username or password.</p>
 					</c:if>
-					<button type="submit" class="btn btn-primary" href="editProfile">Login</button>
+					<input type="submit" class="btn btn-primary" value="Login">
 				</form>
 				<div class="mt-3">
 					<a href="registration">Register</a>
-				</div>
-				<div class="mt-3">
-					<a href="editProfile">Edit Profile</a>
 				</div>
 			</div>
 			<div class="col"></div>

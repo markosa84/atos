@@ -14,13 +14,14 @@ import hu.ak_akademia.atos.db.dao.CityDao;
 import hu.ak_akademia.atos.db.dao.GenderDao;
 import hu.ak_akademia.atos.db.entity.City;
 import hu.ak_akademia.atos.db.entity.Gender;
+import hu.ak_akademia.atos.db.entity.UserInfo;
 import hu.ak_akademia.atos.db.preparedstatementwriter.DummyPreparedStatementWriter;
 import hu.ak_akademia.atos.db.resultsetreader.city.SelectAllCityResultSetReader;
 import hu.ak_akademia.atos.db.resultsetreader.gender.SelectAllGenderResultSetReader;
 import hu.ak_akademia.atos.db.sqlbuilder.city.SelectAllCitySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.gender.SelectAllGenderSqlBuilder;
 
-public class LoadRegistrationServlet extends HttpServlet {
+public class LoadProfileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,11 +39,32 @@ public class LoadRegistrationServlet extends HttpServlet {
 		request.setAttribute("cities", cities);
 		request.setAttribute("genders", genders);
 		Map<String, String[]> parameterMap = request.getParameterMap();
-		for (Entry<String, String[]> entry : parameterMap.entrySet()) {
-			request.setAttribute(entry.getKey(), entry.getValue()[0]);
+		if (parameterMap.containsKey("username")) {
+			for (Entry<String, String[]> entry : parameterMap.entrySet()) {
+				request.setAttribute(entry.getKey(), entry.getValue()[0]);
+			}
+		} else {
+			UserInfo loggedInUser = (UserInfo) request.getSession()
+					.getAttribute("loggedInUser");
+			request.setAttribute("username", loggedInUser.getUserName());
+			request.setAttribute("email", loggedInUser.getEmail());
+			request.setAttribute("firstName", loggedInUser.getFirstName());
+			request.setAttribute("lastName", loggedInUser.getLastName());
+			request.setAttribute("city", loggedInUser.getCityId());
+			request.setAttribute("dateOfBirth", loggedInUser.getDateOfBirth());
+			request.setAttribute("gender", loggedInUser.getGenderId());
+			if (loggedInUser.getShowMeInSearch()) {
+				request.setAttribute("showMeInSearch", "");
+			}
+			if (loggedInUser.getShowAllDetails()) {
+				request.setAttribute("showAllDetails", "");
+			}
+		}
+		if (request.getParameter("saveSuccessful") != null) {
+			request.setAttribute("saveSuccessful", "true");
 		}
 
-		request.getRequestDispatcher("/registration.jsp")
+		request.getRequestDispatcher("/auth/editProfile.jsp")
 				.forward(request, response);
 	}
 

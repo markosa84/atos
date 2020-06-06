@@ -52,6 +52,7 @@ import hu.ak_akademia.atos.db.sqlbuilder.interests.SelectAllInterestsSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllUserInfoSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinterestmap.CreateUserInterestMapSqlBuilder;
+import hu.ak_akademia.atos.util.PasswordHandler;
 
 public class InitDb extends AbstractDatabaseDao<Object> {
 
@@ -81,6 +82,7 @@ public class InitDb extends AbstractDatabaseDao<Object> {
 		populateInterest();
 		populateUserInfo();
 		populateUserInterestMap();
+		System.out.println("Adatbázis feltöltése befejeződött.");
 	}
 
 	private static void populateGender() {
@@ -192,6 +194,21 @@ public class InitDb extends AbstractDatabaseDao<Object> {
 	private static void populateUserInfo() {
 		System.out.print("User_info tábla feltöltése...");
 		List<UserInfo> userInfos = generateUserInfo();
+		UserInfo firstUserInfo = userInfos.get(0);
+		UserInfo admin = UserInfo.builder()
+				.withUserName("admin")
+				.withFirstName(firstUserInfo.getFirstName())
+				.withLastName(firstUserInfo.getLastName())
+				.withEmail(firstUserInfo.getEmail())
+				.withPasswordHash(PasswordHandler.generateHash("admin"))
+				.withCityId(firstUserInfo.getCityId())
+				.withDateOfBirth(firstUserInfo.getDateOfBirth())
+				.withGenderId(firstUserInfo.getGenderId())
+				.withShowMeInSearch(firstUserInfo.getShowMeInSearch())
+				.withShowAllDetails(firstUserInfo.getShowAllDetails())
+				.withPaid(firstUserInfo.getPaid())
+				.build();
+		userInfos.set(0, admin);
 		DatabaseDao<UserInfo> dao = new UserInfoDao();
 		dao.openConnection();
 		for (UserInfo userInfo : userInfos) {
@@ -222,14 +239,15 @@ public class InitDb extends AbstractDatabaseDao<Object> {
 					+ randomFirstName.substring(0, 3)
 							.toLowerCase()
 					+ counter;
-			String passwordHash = new Random().ints(48, 123)
+			String password = new Random().ints(48, 123)
 					.filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
 					.limit(10)
 					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
 					.toString();
+			String passwordHash = PasswordHandler.generateHash(password);
 			Long cityId = cities.get(random.nextInt(cities.size()))
 					.getCityId();
-			LocalDate dateOfBirth = LocalDate.of(random.nextInt(91) + 1920, random.nextInt(12) + 1, 1)
+			LocalDate dateOfBirth = LocalDate.of(random.nextInt(81) + 1920, random.nextInt(12) + 1, 1)
 					.plusDays(random.nextInt(31));
 			Long genderId = genders.get(random.nextInt(genders.size()))
 					.getGenderId();
