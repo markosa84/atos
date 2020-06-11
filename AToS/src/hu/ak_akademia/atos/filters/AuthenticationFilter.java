@@ -13,7 +13,8 @@ import javax.servlet.http.HttpSession;
 
 public class AuthenticationFilter implements Filter {
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession(false);
 		boolean isLoggedIn = (session != null && session.getAttribute("loggedInUser") != null);
@@ -24,6 +25,8 @@ public class AuthenticationFilter implements Filter {
 				.endsWith("login.jsp");
 		boolean isImage = httpRequest.getRequestURI()
 				.contains("/images/");
+		boolean isRegistration = httpRequest.getRequestURI()
+				.endsWith("registration.jsp");
 
 		if (isLoggedIn && (isLoginRequest || isLoginPage)) {
 			// the admin is already logged in and he's trying to login again
@@ -33,6 +36,8 @@ public class AuthenticationFilter implements Filter {
 		} else if (isLoggedIn || isLoginRequest || isImage) {
 			// continues the filter chain
 			// allows the request to reach the destination
+			chain.doFilter(request, response);
+		} else if (!isRegistration) {
 			chain.doFilter(request, response);
 		} else {
 			// the admin is not logged in, so authentication is required

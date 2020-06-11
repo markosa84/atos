@@ -19,7 +19,7 @@ import hu.ak_akademia.atos.db.preparedstatementwriter.userinfo.UpdateUserInfoPre
 import hu.ak_akademia.atos.db.resultsetreader.userinfo.SelectAllUserInfoResultSetReader;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllByIdUserInfoSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.UpdateUserInfoSqlBuilder;
-import hu.ak_akademia.atos.logic.UserInfoValidator;
+import hu.ak_akademia.atos.logic.UserBalanceValidator;
 import hu.ak_akademia.atos.util.DateUtil;
 import hu.ak_akademia.atos.util.PasswordHandler;
 
@@ -42,7 +42,7 @@ public class SaveProfileServlet extends HttpServlet {
 		String showMeInSearchAsString = request.getParameter("showMeInSearch");
 		String showAllDetailsAsString = request.getParameter("showAllDetails");
 
-		UserInfoValidator userInfoValidator = new UserInfoValidator();
+		UserBalanceValidator userInfoValidator = new UserBalanceValidator();
 
 		String previousValues = userInfoValidator.getPreviousValues(username, firstName, lastName, email, cityIdAsString, dateOfBirthAsString, genderIdAsString, showMeInSearchAsString, showAllDetailsAsString);
 
@@ -84,7 +84,7 @@ public class SaveProfileServlet extends HttpServlet {
 		}
 	}
 
-	private void validate(UserInfoValidator userInfoValidator, String username, String firstName, String lastName, String email, String oldPassword, String password, String passwordConfirm, String cityIdAsString, String dateOfBirthAsString, String genderIdAsString, Set<String> invalidFields) {
+	private void validate(UserBalanceValidator userInfoValidator, String username, String firstName, String lastName, String email, String oldPassword, String password, String passwordConfirm, String cityIdAsString, String dateOfBirthAsString, String genderIdAsString, Set<String> invalidFields) {
 		userInfoValidator.validateFirstName(firstName, invalidFields);
 		userInfoValidator.validateLastName(lastName, invalidFields);
 		if (isPasswordChanging(oldPassword, password, passwordConfirm)) {

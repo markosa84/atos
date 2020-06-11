@@ -20,14 +20,17 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String passwordHash = PasswordHandler.generateHash(password);
 
 		UserInfoDao userInfoDao = new UserInfoDao();
 		userInfoDao.openConnection();
-		List<UserInfo> userInfos = userInfoDao.read(new SelectAllByIdAndPasswordUserInfoSqlBuilder(), new SelectAllByIdAndPasswordUserInfoPreparedStatementWriter(username, passwordHash), new SelectAllUserInfoResultSetReader());
+		List<UserInfo> userInfos = userInfoDao.read(new SelectAllByIdAndPasswordUserInfoSqlBuilder(),
+				new SelectAllByIdAndPasswordUserInfoPreparedStatementWriter(username, passwordHash),
+				new SelectAllUserInfoResultSetReader());
 		userInfoDao.closeConnection();
 
 		if (userInfos.isEmpty()) {
