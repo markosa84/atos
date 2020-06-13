@@ -53,7 +53,7 @@ public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 	}
 
 	@Override
-	public <C> void update(E entity, SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter) {
+	public <C> void update(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter) {
 		try {
 			String sql = sqlBuilder.buildSqlStatement();
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -65,9 +65,15 @@ public abstract class AbstractDatabaseDao<E> implements DatabaseDao<E> {
 	}
 
 	@Override
-	public void delete(E entity) {
-		// TODO Auto-generated method stub
-
+	public <C> void delete(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter) {
+		try {
+			String sql = sqlBuilder.buildSqlStatement();
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatementWriter.write(preparedStatement);
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new AtosRuntimeException("Hiba az adatbázisból történő törlés közben.", e);
+		}
 	}
 
 	@Override

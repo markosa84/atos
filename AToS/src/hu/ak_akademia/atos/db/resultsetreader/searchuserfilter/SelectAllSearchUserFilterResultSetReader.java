@@ -19,8 +19,11 @@ public class SelectAllSearchUserFilterResultSetReader implements ResultSetReader
 			Long interestId = resultSet.getLong("interest_id");
 			Long cityId = resultSet.getLong("city_id");
 			Long genderId = resultSet.getLong("gender_id");
-			Integer fromAge = resultSet.getInt("from_age");
-			Integer toAge = resultSet.getInt("to_age");
+			genderId = resultSet.wasNull() ? null : genderId;
+			Integer ageFrom = resultSet.getInt("age_from");
+			ageFrom = resultSet.wasNull() ? null : ageFrom;
+			Integer ageTo = resultSet.getInt("age_to");
+			ageTo = resultSet.wasNull() ? null : ageTo;
 
 			SearchUserFilter searchUserFilter = SearchUserFilter.builder()
 					.withSearchUserFilterId(searchUserFilterId)
@@ -28,8 +31,8 @@ public class SelectAllSearchUserFilterResultSetReader implements ResultSetReader
 					.withInterestId(interestId)
 					.withCityId(cityId)
 					.withGenderId(genderId)
-					.withFromAge(fromAge)
-					.withToAge(toAge)
+					.withAgeFrom(ageFrom)
+					.withAgeTo(ageTo)
 					.build();
 
 			results.add(searchUserFilter);

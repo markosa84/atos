@@ -65,12 +65,12 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>SearchUserServlet</servlet-name>
-		<servlet-class>hu.ak_akademia.atos.servlets.SearchUserServlet</servlet-class>
+		<servlet-name>LoadSearchUserServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.LoadSearchUserServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SearchUserServlet</servlet-name>
-		<url-pattern>/searchUser</url-pattern>
+		<servlet-name>LoadSearchUserServlet</servlet-name>
+		<url-pattern>/loadSearchUser</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -89,6 +89,15 @@
 	<servlet-mapping>
 		<servlet-name>SaveCreateUserFilterServlet</servlet-name>
 		<url-pattern>/saveCreateUserFilter</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SearchUserActionServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.SearchUserActionServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchUserActionServlet</servlet-name>
+		<url-pattern>/searchUserAction</url-pattern>
 	</servlet-mapping>
 
 	<servlet>

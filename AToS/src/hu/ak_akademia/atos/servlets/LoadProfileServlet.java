@@ -47,7 +47,7 @@ public class LoadProfileServlet extends HttpServlet {
 		} else {
 			UserInfo loggedInUser = (UserInfo) request.getSession()
 					.getAttribute("loggedInUser");
-			request.setAttribute("username", loggedInUser.getUserName());
+			request.setAttribute("username", loggedInUser.getUsername());
 			request.setAttribute("email", loggedInUser.getEmail());
 			request.setAttribute("firstName", loggedInUser.getFirstName());
 			request.setAttribute("lastName", loggedInUser.getLastName());

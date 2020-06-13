@@ -22,7 +22,7 @@
 					<ul class="navbar-nav mr-auto align-items-center">
 						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadProfile">Edit profile</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Search user</a></li>
+						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadSearchUser">Search user</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Manage Meetups</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
 					</ul>
@@ -34,9 +34,7 @@
 		</nav>
 		<h1>Apes Together Strong</h1>
 		<p>
-			Hello
-			<c:out value="${sessionScope.loggedInUser.firstName}"></c:out>
-			!
+			Hello <c:out value="${sessionScope.loggedInUser.firstName}"></c:out>!
 		</p>
 	</div>
 </body>

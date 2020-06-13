@@ -6,7 +6,7 @@ public class SelectAllSearchUserFilterSqlBuilder implements SqlBuilder {
 
 	@Override
 	public String buildSqlStatement() {
-		return "SELECT search_user_filter_id, interest_id,city_id,gender_id FROM search_user_filter";
+		return "SELECT search_user_filter_id, username, display_name, interest_id, city_id, gender_id, age_from, age_to FROM search_user_filter";
 	}
 
 }

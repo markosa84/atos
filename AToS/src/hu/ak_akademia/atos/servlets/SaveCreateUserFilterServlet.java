@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import hu.ak_akademia.atos.db.dao.SearchUserFilterDao;
 import hu.ak_akademia.atos.db.entity.SearchUserFilter;
+import hu.ak_akademia.atos.db.entity.SearchUserFilter.Builder;
+import hu.ak_akademia.atos.db.entity.UserInfo;
 import hu.ak_akademia.atos.db.preparedstatementwriter.searchuserfilter.CreateSearchUserFilterPreparedStatementWriter;
 import hu.ak_akademia.atos.db.sqlbuilder.searchuserfilter.CreateSearchUserFilterSqlBuilder;
 import hu.ak_akademia.atos.logic.CityValidator;
@@ -19,7 +21,7 @@ import hu.ak_akademia.atos.logic.GenderValidator;
 import hu.ak_akademia.atos.logic.InterestValidator;
 import hu.ak_akademia.atos.logic.UserFilterValidator;
 
-public class SaveCreateUserFilter extends HttpServlet {
+public class SaveCreateUserFilterServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,49 +42,63 @@ public class SaveCreateUserFilter extends HttpServlet {
 		validate(userFilterValidator, filterName, interestIdAsString, cityIdAsString, genderIdAsString, ageFromAsString, ageToAsString, invalidFields);
 
 		if (invalidFields.isEmpty()) {
-			SearchUserFilter searchUserFilter = SearchUserFilter.builder()
+			UserInfo loggedInUser = (UserInfo) request.getSession()
+					.getAttribute("loggedInUser");
+
+			Builder searchUserFilterBuilder = SearchUserFilter.builder()
+					.withUsername(loggedInUser.getUsername())
 					.withDisplayName(filterName)
 					.withInterestId(Long.parseLong(interestIdAsString))
-					.withCityId(Long.parseLong(cityIdAsString))
-					.withGenderId(Long.parseLong(genderIdAsString))
-					.withFromAge(Integer.parseInt(ageFromAsString))
-					.withToAge(Integer.parseInt(ageToAsString))
-					.build();
+					.withCityId(Long.parseLong(cityIdAsString));
+			if (isGenderSpecified(genderIdAsString)) {
+				searchUserFilterBuilder.withGenderId(Long.parseLong(genderIdAsString));
+			}
+			if (isAgeSpecified(ageFromAsString)) {
+				searchUserFilterBuilder.withAgeFrom(Integer.parseInt(ageFromAsString));
+			}
+			if (isAgeSpecified(ageToAsString)) {
+				searchUserFilterBuilder.withAgeTo(Integer.parseInt(ageToAsString));
+			}
+			SearchUserFilter searchUserFilter = searchUserFilterBuilder.build();
 
 			SearchUserFilterDao searchUserFilterDao = new SearchUserFilterDao();
 			searchUserFilterDao.openConnection();
-			searchUserFilterDao.create(new CreateSearchUserFilterSqlBuilder(), new CreateSearchUserFilterPreparedStatementWriter(searchUserFilter));
+			searchUserFilterDao.create(new CreateSearchUserFilterSqlBuilder(searchUserFilter), new CreateSearchUserFilterPreparedStatementWriter(searchUserFilter));
 			searchUserFilterDao.closeConnection();
-			response.sendRedirect(request.getContextPath() + "/loadCreateUserFilter");
+			response.sendRedirect(request.getContextPath() + "/loadSearchUser?saveSuccessful=true");
 		} else {
 			StringJoiner invalidFieldJoiner = new StringJoiner("&", "&", "");
 			for (String invalidField : invalidFields) {
 				invalidFieldJoiner.add(invalidField + "=true");
 			}
-			response.sendRedirect(request.getContextPath() + "/createUserFilter.jsp?" + previousValues + invalidFieldJoiner);
+			response.sendRedirect(request.getContextPath() + "/loadCreateUserFilter?" + previousValues + invalidFieldJoiner);
 		}
+	}
+
+	private boolean isAgeSpecified(String ageAsString) {
+		return !ageAsString.trim()
+				.isEmpty();
+	}
+
+	private boolean isGenderSpecified(String genderIdAsString) {
+		return !genderIdAsString.trim()
+				.isEmpty() && !"-1".equals(genderIdAsString.trim());
 	}
 
 	private void validate(UserFilterValidator userFilterValidator, String filterName, String interestIdAsString, String cityIdAsString, String genderIdAsString, String ageFromAsString, String ageToAsString, Set<String> invalidFields) {
 		userFilterValidator.validateFilterName(filterName, invalidFields);
 		new InterestValidator().validateInterest(interestIdAsString, invalidFields);
 		new CityValidator().validateCity(cityIdAsString, invalidFields);
-		if (!genderIdAsString.trim()
-				.isEmpty()) {
+		if (isGenderSpecified(genderIdAsString)) {
 			new GenderValidator().validateGender(genderIdAsString, invalidFields);
 		}
-		if (!ageFromAsString.trim()
-				.isEmpty()) {
+		if (isAgeSpecified(ageFromAsString)) {
 			userFilterValidator.validateAgeFrom(ageFromAsString, invalidFields);
 		}
-		if (!ageToAsString.trim()
-				.isEmpty()) {
+		if (isAgeSpecified(ageToAsString)) {
 			userFilterValidator.validateAgeTo(ageToAsString, invalidFields);
 		}
-		if (!ageFromAsString.trim()
-				.isEmpty()
-				&& !ageToAsString.trim()
-						.isEmpty()) {
+		if (isAgeSpecified(ageFromAsString) && isAgeSpecified(ageToAsString)) {
 			userFilterValidator.validateAgeInterval(ageFromAsString, ageToAsString, invalidFields);
 		}
 	}

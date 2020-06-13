@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class UserInfo {
 
-	private final String userName;
+	private final String username;
 	private final String firstName;
 	private final String lastName;
 	private final String email;
@@ -17,7 +17,7 @@ public class UserInfo {
 	private final Boolean paid;
 
 	private UserInfo(Builder builder) {
-		this.userName = builder.userName;
+		this.username = builder.username;
 		this.firstName = builder.firstName;
 		this.lastName = builder.lastName;
 		this.email = builder.email;
@@ -30,8 +30,8 @@ public class UserInfo {
 		this.paid = builder.paid;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
 	public String getFirstName() {
@@ -79,7 +79,7 @@ public class UserInfo {
 	}
 
 	public static final class Builder {
-		private String userName;
+		private String username;
 		private String firstName;
 		private String lastName;
 		private String email;
@@ -94,8 +94,8 @@ public class UserInfo {
 		private Builder() {
 		}
 
-		public Builder withUserName(String userName) {
-			this.userName = userName;
+		public Builder withUsername(String username) {
+			this.username = username;
 			return this;
 		}
 

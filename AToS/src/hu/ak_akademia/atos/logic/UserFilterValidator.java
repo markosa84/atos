@@ -9,9 +9,9 @@ import java.util.StringJoiner;
 import hu.ak_akademia.atos.AtosRuntimeException;
 import hu.ak_akademia.atos.db.dao.SearchUserFilterDao;
 import hu.ak_akademia.atos.db.entity.SearchUserFilter;
-import hu.ak_akademia.atos.db.preparedstatementwriter.searchuserfilter.SelectAllByIdSearchUserFilterPreparedStatementWriter;
+import hu.ak_akademia.atos.db.preparedstatementwriter.searchuserfilter.SelectAllByNameSearchUserFilterPreparedStatementWriter;
 import hu.ak_akademia.atos.db.resultsetreader.searchuserfilter.SelectAllSearchUserFilterResultSetReader;
-import hu.ak_akademia.atos.db.sqlbuilder.searchuserfilter.SelectAllByIdSearchUserFilterSqlBuilder;
+import hu.ak_akademia.atos.db.sqlbuilder.searchuserfilter.SelectAllByNameSearchUserFilterSqlBuilder;
 
 public class UserFilterValidator {
 
@@ -40,7 +40,7 @@ public class UserFilterValidator {
 		}
 		SearchUserFilterDao searchUserFilterDao = new SearchUserFilterDao();
 		searchUserFilterDao.openConnection();
-		List<SearchUserFilter> searchUserFilters = searchUserFilterDao.read(new SelectAllByIdSearchUserFilterSqlBuilder(), new SelectAllByIdSearchUserFilterPreparedStatementWriter(filterName), new SelectAllSearchUserFilterResultSetReader());
+		List<SearchUserFilter> searchUserFilters = searchUserFilterDao.read(new SelectAllByNameSearchUserFilterSqlBuilder(), new SelectAllByNameSearchUserFilterPreparedStatementWriter(filterName), new SelectAllSearchUserFilterResultSetReader());
 		searchUserFilterDao.closeConnection();
 		if (!searchUserFilters.isEmpty()) {
 			invalidFields.add("filterNameInvalid");

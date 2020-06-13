@@ -18,7 +18,7 @@ public class CreateUserInfoPreparedStatementWriter implements PreparedStatementW
 	@Override
 	public void write(PreparedStatement preparedStatement) throws SQLException {
 		int i = 1;
-		preparedStatement.setString(i++, userInfo.getUserName());
+		preparedStatement.setString(i++, userInfo.getUsername());
 		preparedStatement.setString(i++, userInfo.getFirstName());
 		preparedStatement.setString(i++, userInfo.getLastName());
 		preparedStatement.setString(i++, userInfo.getEmail());

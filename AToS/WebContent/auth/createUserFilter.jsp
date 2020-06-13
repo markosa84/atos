@@ -22,7 +22,7 @@
 					<ul class="navbar-nav mr-auto align-items-center">
 						<li class="nav-item "><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadProfile">Edit profile</a></li>
-						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/searchUser">Search user</a></li>
+						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadSearchUser">Search user</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Manage Meetups</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
 					</ul>
@@ -36,15 +36,19 @@
 			<div class="col"></div>
 			<div class="col my-auto">
 				<h2>Create User Filter</h2>
+				<c:if test="${saveSuccessful}">
+					<div class="alert alert-success alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert">&times;</button>
+						<strong>User search filter successfully created!</strong>
+					</div>
+				</c:if>
 				<form action="saveCreateUserFilter" method="post">
-					<div class="form-row">
-						<div class="form-group col-md-6">
-							<label for="filterName">Filter Name:</label>
-							<input type="text" class="form-control<c:if test="${filterNameInvalid}"> is-invalid</c:if>" id="filterName" name="filterName" value="${filterName}">
-							<c:if test="${filterNameInvalid}">
-								<p class="text-danger">Invalid filter name.</p>
-							</c:if>
-						</div>
+					<div class="form-group">
+						<label for="filterName">Filter Name:</label>
+						<input type="text" class="form-control<c:if test="${filterNameInvalid}"> is-invalid</c:if>" id="filterName" name="filterName" value="${filterName}">
+						<c:if test="${filterNameInvalid}">
+							<p class="text-danger">Invalid filter name.</p>
+						</c:if>
 					</div>
 					<div class="form-group">
 						<label for="gender">Interest:</label>
@@ -61,7 +65,7 @@
 					<div class="form-group">
 						<label for="city">City:</label>
 						<select class="form-control<c:if test="${cityInvalid}"> is-invalid</c:if>" id="city" name="city">
-							<option <c:if test="${city == -1}">selected="selected"</c:if> value="-1">Please select your city</option>
+							<option <c:if test="${city == -1}">selected="selected"</c:if> value="-1">Please select city</option>
 							<c:forEach var="cityItem" items="${cities}">
 								<option <c:if test="${cityItem.cityId == city}">selected="selected"</c:if> value="${cityItem.cityId}">${cityItem.name}</option>
 							</c:forEach>
@@ -73,7 +77,7 @@
 					<div class="form-group">
 						<label for="gender">Gender:</label>
 						<select class="form-control<c:if test="${genderInvalid}"> is-invalid</c:if>" id="gender" name="gender">
-							<option <c:if test="${gender == -1}">selected="selected"</c:if> value="-1">Please select your gender</option>
+							<option <c:if test="${gender == -1}">selected="selected"</c:if> value="-1">Please select gender</option>
 							<c:forEach var="genderItem" items="${genders}">
 								<option <c:if test="${genderItem.genderId == gender}">selected="selected"</c:if> value="${genderItem.genderId}">${genderItem.name}</option>
 							</c:forEach>
@@ -85,21 +89,22 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="ageFrom">Age From:</label>
-							<input type="number" class="form-control<c:if test="${ageFromInvalid}"> is-invalid</c:if>" id="ageFrom" name="ageFrom" value="${ageFrom}">
+							<input type="number" class="form-control<c:if test="${ageFromInvalid || invalidAgeInterval}"> is-invalid</c:if>" id="ageFrom" name="ageFrom" value="${ageFrom}">
 							<c:if test="${ageFromInvalid}">
 								<p class="text-danger">Invalid age from.</p>
 							</c:if>
 						</div>
-					</div>
-					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="ageTo">Age To:</label>
-							<input type="number" class="form-control<c:if test="${ageToInvalid}"> is-invalid</c:if>" id="ageTo" name="ageTo" value="${ageTo}">
+							<input type="number" class="form-control<c:if test="${ageToInvalid || invalidAgeInterval}"> is-invalid</c:if>" id="ageTo" name="ageTo" value="${ageTo}">
 							<c:if test="${ageToInvalid}">
 								<p class="text-danger">Invalid age to.</p>
 							</c:if>
 						</div>
 					</div>
+					<c:if test="${invalidAgeInterval}">
+						<p class="text-danger">Invalid age interval.</p>
+					</c:if>
 					<button type="submit" class="btn btn-primary">Create</button>
 				</form>
 			</div>

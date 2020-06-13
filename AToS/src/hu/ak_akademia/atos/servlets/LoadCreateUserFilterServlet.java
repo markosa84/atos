@@ -52,7 +52,9 @@ public class LoadCreateUserFilterServlet extends HttpServlet {
 		for (Entry<String, String[]> entry : parameterMap.entrySet()) {
 			request.setAttribute(entry.getKey(), entry.getValue()[0]);
 		}
-
+		if (request.getParameter("saveSuccessful") != null) {
+			request.setAttribute("saveSuccessful", "true");
+		}
 		request.getRequestDispatcher("/auth/createUserFilter.jsp")
 				.forward(request, response);
 	}

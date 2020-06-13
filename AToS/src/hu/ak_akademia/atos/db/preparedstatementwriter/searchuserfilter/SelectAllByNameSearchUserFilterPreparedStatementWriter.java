@@ -6,17 +6,17 @@ import java.sql.SQLException;
 import hu.ak_akademia.atos.db.entity.SearchUserFilter;
 import hu.ak_akademia.atos.db.preparedstatementwriter.PreparedStatementWriter;
 
-public class SelectAllByIdSearchUserFilterPreparedStatementWriter implements PreparedStatementWriter<SearchUserFilter> {
+public class SelectAllByNameSearchUserFilterPreparedStatementWriter implements PreparedStatementWriter<SearchUserFilter> {
 
-	private final long filterId;
+	private final String filterName;
 
-	public SelectAllByIdSearchUserFilterPreparedStatementWriter(long filterId) {
-		this.filterId = filterId;
+	public SelectAllByNameSearchUserFilterPreparedStatementWriter(String filterName) {
+		this.filterName = filterName;
 	}
 
 	@Override
 	public void write(PreparedStatement preparedStatement) throws SQLException {
-		preparedStatement.setLong(1, filterId);
+		preparedStatement.setString(1, filterName);
 	}
 
 }

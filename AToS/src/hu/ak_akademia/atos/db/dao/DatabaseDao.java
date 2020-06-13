@@ -19,10 +19,9 @@ public interface DatabaseDao<E> {
 
 	<C> List<E> read(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter, ResultSetReader<E> resultSetReader);
 
-	<C> void update(E entity, SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter);
+	<C> void update(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter);
 
-//	void delete(SqlBuilder sqlBuilder, PreparedStatementWriter<E> preparedStatementWriter);
-	void delete(E entity);
+	<C> void delete(SqlBuilder sqlBuilder, PreparedStatementWriter<C> preparedStatementWriter);
 
 	void closeConnection();
 

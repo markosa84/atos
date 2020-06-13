@@ -196,7 +196,7 @@ public class InitDb extends AbstractDatabaseDao<Object> {
 		List<UserInfo> userInfos = generateUserInfo();
 		UserInfo firstUserInfo = userInfos.get(0);
 		UserInfo admin = UserInfo.builder()
-				.withUserName("admin")
+				.withUsername("admin")
 				.withFirstName(firstUserInfo.getFirstName())
 				.withLastName(firstUserInfo.getLastName())
 				.withEmail(firstUserInfo.getEmail())
@@ -256,7 +256,7 @@ public class InitDb extends AbstractDatabaseDao<Object> {
 			Boolean paid = random.nextBoolean();
 
 			UserInfo userInfo = UserInfo.builder()
-					.withUserName(removeAccents(username.toLowerCase()))
+					.withUsername(removeAccents(username.toLowerCase()))
 					.withFirstName(randomFirstName)
 					.withLastName(randomLastName)
 					.withEmail(removeAccents(email).toLowerCase())
@@ -291,7 +291,7 @@ public class InitDb extends AbstractDatabaseDao<Object> {
 				int randomIndex = random.nextInt(interests.size());
 				Interest randomInterest = interests.get(randomIndex);
 				UserInterestMap userInterestMap = UserInterestMap.builder()
-						.withUsername(user.getUserName())
+						.withUsername(user.getUsername())
 						.withInterestId(randomInterest.getInterestId())
 						.build();
 				userInterestMapDao.create(new CreateUserInterestMapSqlBuilder(), new CreateUserInterestMapPreparedStatementWriter(userInterestMap));

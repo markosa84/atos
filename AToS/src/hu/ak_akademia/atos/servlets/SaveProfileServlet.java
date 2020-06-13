@@ -59,7 +59,7 @@ public class SaveProfileServlet extends HttpServlet {
 			UserInfo oldUserInfo = userInfos.get(0);
 			String oldPasswordHash = isPasswordChanging(oldPassword, password, passwordConfirm) ? PasswordHandler.generateHash(oldPassword) : oldUserInfo.getPasswordHash();
 			UserInfo userInfo = UserInfo.builder()
-					.withUserName(username)
+					.withUsername(username)
 					.withFirstName(firstName)
 					.withLastName(lastName)
 					.withEmail(email)
@@ -71,7 +71,7 @@ public class SaveProfileServlet extends HttpServlet {
 					.withShowAllDetails(showAllDetails)
 					.withShowMeInSearch(showMeInSearch)
 					.build();
-			userInfoDao.update(userInfo, new UpdateUserInfoSqlBuilder(), new UpdateUserInfoPreparedStatementWriter(userInfo, oldPasswordHash));
+			userInfoDao.update(new UpdateUserInfoSqlBuilder(), new UpdateUserInfoPreparedStatementWriter(userInfo, oldPasswordHash));
 			userInfoDao.closeConnection();
 			request.getSession()
 					.setAttribute("loggedInUser", userInfo);

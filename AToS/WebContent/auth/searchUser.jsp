@@ -22,7 +22,7 @@
 					<ul class="navbar-nav mr-auto align-items-center">
 						<li class="nav-item "><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadProfile">Edit profile</a></li>
-						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/searchUser">Search user</a></li>
+						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadSearchUser">Search user</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Manage Meetups</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
 					</ul>
@@ -33,7 +33,33 @@
 			</div>
 		</nav>
 		<h1>User Search</h1>
-		<a href="<c:out value="${pageContext.servletContext.contextPath}" />/createUserFilter" class="btn btn-primary">Create New Filter</a>
+		<c:if test="${saveSuccessful}">
+			<div class="alert alert-success alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Filter successfully created</strong>
+			</div>
+		</c:if>
+		<c:if test="${deleteSuccessful}">
+			<div class="alert alert-primary alert-dismissible">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<strong>Filter deleted successfully</strong>
+			</div>
+		</c:if>
+		<form action="searchUserAction" method="post">
+			<c:forEach var="filterItem" items="${filters}">
+				<div class="row">
+					<div class="col-10" style="font-size: 2em;">${filterItem.displayName}</div>
+					<div class="col-1">
+						<input type="submit" value="Delete" class="btn btn-danger" name="delete_${filterItem.searchUserFilterId}">
+					</div>
+					<div class="col-1">
+						<input type="submit" value="Execute" class="btn btn-primary" name="execute_${filterItem.searchUserFilterId}">
+					</div>
+				</div>
+			</c:forEach>
+		</form>
+
+		<a href="<c:out value="${pageContext.servletContext.contextPath}" />/loadCreateUserFilter" class="btn btn-primary">Create New Filter</a>
 	</div>
 </body>
 </html>

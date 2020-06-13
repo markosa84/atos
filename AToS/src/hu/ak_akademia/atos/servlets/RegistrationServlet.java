@@ -49,7 +49,7 @@ public class RegistrationServlet extends HttpServlet {
 
 		if (invalidFields.isEmpty()) {
 			UserInfo userInfo = UserInfo.builder()
-					.withUserName(username)
+					.withUsername(username)
 					.withFirstName(firstName)
 					.withLastName(lastName)
 					.withEmail(email)

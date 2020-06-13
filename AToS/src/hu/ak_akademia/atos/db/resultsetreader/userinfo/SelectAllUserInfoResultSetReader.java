@@ -29,7 +29,7 @@ public class SelectAllUserInfoResultSetReader implements ResultSetReader<UserInf
 			boolean paid = resultSet.getBoolean("paid");
 
 			UserInfo userInfo = UserInfo.builder()
-					.withUserName(username)
+					.withUsername(username)
 					.withFirstName(firstName)
 					.withLastName(lastName)
 					.withEmail(email)

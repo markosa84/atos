@@ -30,7 +30,7 @@ public class UpdateUserInfoPreparedStatementWriter implements PreparedStatementW
 		preparedStatement.setBoolean(i++, userInfo.getShowMeInSearch());
 		preparedStatement.setBoolean(i++, userInfo.getShowAllDetails());
 		preparedStatement.setBoolean(i++, userInfo.getPaid());
-		preparedStatement.setString(i++, userInfo.getUserName());
+		preparedStatement.setString(i++, userInfo.getUsername());
 		preparedStatement.setString(i++, oldPasswordHash);
 	}
 

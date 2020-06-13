@@ -8,7 +8,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-<title>Home</title>
+<title>User Search Results</title>
 </head>
 <body style="height: 100%;">
 	<div class="container">
@@ -22,7 +22,7 @@
 					<ul class="navbar-nav mr-auto align-items-center">
 						<li class="nav-item "><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp">Home</a></li>
 						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadProfile">Edit profile</a></li>
-						<li class="nav-item active"><a class="nav-link"  href="<c:out value="${pageContext.servletContext.contextPath}" />/searchUser">Search user</a></li>
+						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadSearchUser">Search user</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Manage Meetups</a></li>
 						<li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
 					</ul>
@@ -32,25 +32,14 @@
 				</div>
 			</div>
 		</nav>
-		<h1>Apes Together Strong</h1>
-		<div class="row h-75">
-			<div class="col"></div>
-			<div class="col my-auto">
-				<h2>Search User</h2>
-				<!-- <form action="login" class="was-validated" method="post"> -->
-				<p>
-					Hello
-					<c:out value="${sessionScope.loggedInUser.firstName}"></c:out>
-					!
-				</p>
+		<h1>User Search Results</h1>
+		<c:forEach var="userInfo" items="${userInfos}">
+			<div class="row">
+				<div class="col-4">${userInfo.username}</div>
+				<div class="col-4">${userInfo.firstName}</div>
+				<div class="col-4">${userInfo.lastName}</div>
 			</div>
-			<div class="col"></div>
-		</div>
+		</c:forEach>
 	</div>
-	<script>
-		$(document).ready(function() {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
-	</script>
 </body>
 </html>

@@ -155,16 +155,18 @@ CREATE TABLE message (
 CREATE SEQUENCE search_user_filter_seq;
 CREATE TABLE search_user_filter (
 	search_user_filter_id BIGINT NOT NULL,
+	username VARCHAR(20) NOT NULL,
 	display_name VARCHAR(100) NOT NULL,
 	interest_id BIGINT NOT NULL,
 	city_id BIGINT NOT NULL,
 	gender_id BIGINT,
-	from_age INTEGER,
-	to_age INTEGER,
+	age_from INTEGER,
+	age_to INTEGER,
 	CONSTRAINT search_user_filter_pk PRIMARY KEY (search_user_filter_id),
-	CONSTRAINT search_user_filter_fk1 FOREIGN KEY (interest_id) REFERENCES interests(interest_id),
-	CONSTRAINT search_user_filter_fk2 FOREIGN KEY (city_id) REFERENCES city(city_id),
-	CONSTRAINT search_user_filter_fk3 FOREIGN KEY (gender_id) REFERENCES gender(gender_id)
+	CONSTRAINT search_user_filter_fk1 FOREIGN KEY (username) REFERENCES user_info(username),
+	CONSTRAINT search_user_filter_fk2 FOREIGN KEY (interest_id) REFERENCES interests(interest_id),
+	CONSTRAINT search_user_filter_fk3 FOREIGN KEY (city_id) REFERENCES city(city_id),
+	CONSTRAINT search_user_filter_fk4 FOREIGN KEY (gender_id) REFERENCES gender(gender_id)
 );
 
 -- search_meetup_filter
