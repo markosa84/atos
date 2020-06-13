@@ -1,7 +1,6 @@
 package hu.ak_akademia.atos.servlets;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,7 @@ import hu.ak_akademia.atos.db.preparedstatementwriter.userinfo.UpdateUserInfoPre
 import hu.ak_akademia.atos.db.resultsetreader.userinfo.SelectAllUserInfoResultSetReader;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllByIdUserInfoSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.UpdateUserInfoSqlBuilder;
-import hu.ak_akademia.atos.logic.UserBalanceValidator;
+import hu.ak_akademia.atos.logic.UserInfoValidator;
 import hu.ak_akademia.atos.util.DateUtil;
 import hu.ak_akademia.atos.util.PasswordHandler;
 
@@ -28,8 +27,7 @@ public class SaveProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
@@ -43,26 +41,21 @@ public class SaveProfileServlet extends HttpServlet {
 		String showMeInSearchAsString = request.getParameter("showMeInSearch");
 		String showAllDetailsAsString = request.getParameter("showAllDetails");
 
-		UserBalanceValidator userInfoValidator = new UserBalanceValidator();
+		UserInfoValidator userInfoValidator = new UserInfoValidator();
 
-		String previousValues = userInfoValidator.getPreviousValues(username, firstName, lastName, email,
-				cityIdAsString, dateOfBirthAsString, genderIdAsString, showMeInSearchAsString, showAllDetailsAsString);
+		String previousValues = userInfoValidator.getPreviousValues(username, firstName, lastName, email, cityIdAsString, dateOfBirthAsString, genderIdAsString, showMeInSearchAsString, showAllDetailsAsString);
 
 		Set<String> invalidFields = new HashSet<>();
-		validate(userInfoValidator, username, firstName, lastName, email, oldPassword, password, passwordConfirm,
-				cityIdAsString, dateOfBirthAsString, genderIdAsString, invalidFields);
+		validate(userInfoValidator, username, firstName, lastName, email, oldPassword, password, passwordConfirm, cityIdAsString, dateOfBirthAsString, genderIdAsString, invalidFields);
 		boolean showMeInSearch = showMeInSearchAsString != null;
 		boolean showAllDetails = showAllDetailsAsString != null;
 
 		if (invalidFields.isEmpty()) {
 			UserInfoDao userInfoDao = new UserInfoDao();
 			userInfoDao.openConnection();
-			List<UserInfo> userInfos = userInfoDao.read(new SelectAllByIdUserInfoSqlBuilder(),
-					new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
+			List<UserInfo> userInfos = userInfoDao.read(new SelectAllByIdUserInfoSqlBuilder(), new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
 			UserInfo oldUserInfo = userInfos.get(0);
-			String oldPasswordHash = isPasswordChanging(oldPassword, password, passwordConfirm)
-					? PasswordHandler.generateHash(oldPassword)
-					: oldUserInfo.getPasswordHash();
+			String oldPasswordHash = isPasswordChanging(oldPassword, password, passwordConfirm) ? PasswordHandler.generateHash(oldPassword) : oldUserInfo.getPasswordHash();
 			UserInfo userInfo = UserInfo.builder()
 					.withUserName(username)
 					.withFirstName(firstName)
@@ -70,16 +63,13 @@ public class SaveProfileServlet extends HttpServlet {
 					.withEmail(email)
 					.withCityId(Long.parseLong(cityIdAsString))
 					.withGenderId(Long.parseLong(genderIdAsString))
-					.withPasswordHash(isPasswordChanging(oldPassword, password, passwordConfirm)
-							? PasswordHandler.generateHash(password)
-							: oldUserInfo.getPasswordHash())
+					.withPasswordHash(isPasswordChanging(oldPassword, password, passwordConfirm) ? PasswordHandler.generateHash(password) : oldUserInfo.getPasswordHash())
 					.withDateOfBirth(DateUtil.convert(dateOfBirthAsString))
 					.withPaid(oldUserInfo.getPaid())
 					.withShowAllDetails(showAllDetails)
 					.withShowMeInSearch(showMeInSearch)
 					.build();
-			userInfoDao.update(userInfo, new UpdateUserInfoSqlBuilder(),
-					new UpdateUserInfoPreparedStatementWriter(userInfo, oldPasswordHash));
+			userInfoDao.update(userInfo, new UpdateUserInfoSqlBuilder(), new UpdateUserInfoPreparedStatementWriter(userInfo, oldPasswordHash));
 			userInfoDao.closeConnection();
 			request.getSession()
 					.setAttribute("loggedInUser", userInfo);
@@ -93,9 +83,7 @@ public class SaveProfileServlet extends HttpServlet {
 		}
 	}
 
-	private void validate(UserBalanceValidator userInfoValidator, String username, String firstName, String lastName,
-			String email, String oldPassword, String password, String passwordConfirm, String cityIdAsString,
-			String dateOfBirthAsString, String genderIdAsString, Set<String> invalidFields) {
+	private void validate(UserInfoValidator userInfoValidator, String username, String firstName, String lastName, String email, String oldPassword, String password, String passwordConfirm, String cityIdAsString, String dateOfBirthAsString, String genderIdAsString, Set<String> invalidFields) {
 		userInfoValidator.validateFirstName(firstName, invalidFields);
 		userInfoValidator.validateLastName(lastName, invalidFields);
 		if (isPasswordChanging(oldPassword, password, passwordConfirm)) {
@@ -109,8 +97,7 @@ public class SaveProfileServlet extends HttpServlet {
 	}
 
 	private boolean isPasswordChanging(String oldPassword, String password, String passwordConfirm) {
-		return oldPassword != null && !oldPassword.isBlank() || password != null && !password.isBlank()
-				|| passwordConfirm != null && !passwordConfirm.isBlank();
+		return oldPassword != null && !oldPassword.isBlank() || password != null && !password.isBlank() || passwordConfirm != null && !passwordConfirm.isBlank();
 	}
 
 }

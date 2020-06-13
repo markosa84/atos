@@ -27,11 +27,9 @@ import hu.ak_akademia.atos.db.sqlbuilder.userinfo.SelectAllByIdUserInfoSqlBuilde
 import hu.ak_akademia.atos.util.DateUtil;
 import hu.ak_akademia.atos.util.PasswordHandler;
 
-public class UserBalanceValidator {
+public class UserInfoValidator {
 
-	public String getPreviousValues(String username, String firstName, String lastName, String email,
-			String cityIdAsString, String dateOfBirthAsString, String genderIdAsString, String showMeInSearchAsString,
-			String showAllDetailsAsString) {
+	public String getPreviousValues(String username, String firstName, String lastName, String email, String cityIdAsString, String dateOfBirthAsString, String genderIdAsString, String showMeInSearchAsString, String showAllDetailsAsString) {
 		try {
 			StringJoiner joiner = new StringJoiner("&");
 			joiner.add("username=" + URLEncoder.encode(username, "UTF-8"));
@@ -86,8 +84,7 @@ public class UserBalanceValidator {
 		}
 		GenderDao genderDao = new GenderDao();
 		genderDao.openConnection();
-		List<Gender> genders = genderDao.read(new SelectAllByIdGenderSqlBuilder(),
-				new SelectAllByIdGenderPreparedStatementWriter(genderId), new SelectAllGenderResultSetReader());
+		List<Gender> genders = genderDao.read(new SelectAllByIdGenderSqlBuilder(), new SelectAllByIdGenderPreparedStatementWriter(genderId), new SelectAllGenderResultSetReader());
 		genderDao.closeConnection();
 		if (genders.isEmpty()) {
 			invalidFields.add("genderInvalid");
@@ -109,8 +106,7 @@ public class UserBalanceValidator {
 		}
 		CityDao cityDao = new CityDao();
 		cityDao.openConnection();
-		List<City> cities = cityDao.read(new SelectAllByIdCitySqlBuilder(),
-				new SelectAllByIdCityPreparedStatementWriter(cityId), new SelectAllCityResultSetReader());
+		List<City> cities = cityDao.read(new SelectAllByIdCitySqlBuilder(), new SelectAllByIdCityPreparedStatementWriter(cityId), new SelectAllCityResultSetReader());
 		cityDao.closeConnection();
 		if (cities.isEmpty()) {
 			invalidFields.add("cityInvalid");
@@ -121,8 +117,7 @@ public class UserBalanceValidator {
 	public void validateOldPassword(String username, String oldPassword, Set<String> invalidFields) {
 		UserInfoDao dao = new UserInfoDao();
 		dao.openConnection();
-		List<UserInfo> userInfos = dao.read(new SelectAllByIdUserInfoSqlBuilder(),
-				new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
+		List<UserInfo> userInfos = dao.read(new SelectAllByIdUserInfoSqlBuilder(), new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
 		dao.closeConnection();
 		if (!userInfos.isEmpty()) {
 			UserInfo userInfo = userInfos.get(0);
@@ -136,15 +131,13 @@ public class UserBalanceValidator {
 	}
 
 	public void validatePassword(String password, Set<String> invalidFields) {
-		if (isInvalidLength(password, 8, 15) || !password
-				.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*](?=\\S+$).{8,15}$")) {
+		if (isInvalidLength(password, 8, 15) || !password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*](?=\\S+$).{8,15}$")) {
 			invalidFields.add("passwordInvalid");
 		}
 	}
 
 	public void validatePasswordConfirm(String password, String passwordConfirm, Set<String> invalidFields) {
-		if (isInvalidLength(passwordConfirm) || !passwordConfirm.equals(password)
-				|| invalidFields.contains("passwordInvalid")) {
+		if (isInvalidLength(passwordConfirm) || !passwordConfirm.equals(password) || invalidFields.contains("passwordInvalid")) {
 			invalidFields.add("passwordConfirmInvalid");
 		}
 	}
@@ -175,8 +168,7 @@ public class UserBalanceValidator {
 		}
 		UserInfoDao userInfoDao = new UserInfoDao();
 		userInfoDao.openConnection();
-		List<UserInfo> userinfos = userInfoDao.read(new SelectAllByIdUserInfoSqlBuilder(),
-				new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
+		List<UserInfo> userinfos = userInfoDao.read(new SelectAllByIdUserInfoSqlBuilder(), new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
 		userInfoDao.closeConnection();
 		if (!userinfos.isEmpty()) {
 			invalidFields.add("usernameInvalid");

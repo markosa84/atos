@@ -25,18 +25,16 @@ public class LoadProfileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		CityDao cityDao = new CityDao();
 		cityDao.openConnection();
-		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllCityResultSetReader());
+		List<City> cities = cityDao.read(new SelectAllCitySqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllCityResultSetReader());
 		cityDao.closeConnection();
 
 		GenderDao genderDao = new GenderDao();
 		genderDao.openConnection();
-		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(),
-				new SelectAllGenderResultSetReader());
+		List<Gender> genders = genderDao.read(new SelectAllGenderSqlBuilder(), new DummyPreparedStatementWriter(), new SelectAllGenderResultSetReader());
 		genderDao.closeConnection();
 
 		request.setAttribute("cities", cities);
@@ -56,9 +54,12 @@ public class LoadProfileServlet extends HttpServlet {
 			request.setAttribute("city", loggedInUser.getCityId());
 			request.setAttribute("dateOfBirth", loggedInUser.getDateOfBirth());
 			request.setAttribute("gender", loggedInUser.getGenderId());
-			request.setAttribute("showAllDetails", loggedInUser.getShowAllDetails());
-			request.setAttribute("showMeInSearch", loggedInUser.getShowMeInSearch());
-			request.setAttribute("paid", loggedInUser.getPaid());
+			if (loggedInUser.getShowMeInSearch()) {
+				request.setAttribute("showMeInSearch", "");
+			}
+			if (loggedInUser.getShowAllDetails()) {
+				request.setAttribute("showAllDetails", "");
+			}
 		}
 		if (request.getParameter("saveSuccessful") != null) {
 			request.setAttribute("saveSuccessful", "true");

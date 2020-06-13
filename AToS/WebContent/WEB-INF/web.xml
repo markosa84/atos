@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<elment>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
 	<session-config>
 		<session-timeout>60</session-timeout>
 	</session-config>
+
 	<display-name>AToS</display-name>
+
 	<welcome-file-list>
 		<welcome-file>auth/home.jsp</welcome-file>
 	</welcome-file-list>
@@ -53,6 +54,7 @@
 		<servlet-name>LoadProfileServlet</servlet-name>
 		<url-pattern>/loadProfile</url-pattern>
 	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>SaveProfileServlet</servlet-name>
 		<servlet-class>hu.ak_akademia.atos.servlets.SaveProfileServlet</servlet-class>
@@ -61,25 +63,24 @@
 		<servlet-name>SaveProfileServlet</servlet-name>
 		<url-pattern>/saveProfile</url-pattern>
 	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>SearchUserServlet</servlet-name>
 		<servlet-class>hu.ak_akademia.atos.servlets.SearchUserServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SearchUserServket</servlet-name>
+		<servlet-name>SearchUserServlet</servlet-name>
 		<url-pattern>/searchUser</url-pattern>
 	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>SearchUserResultServlet</servlet-name>
 		<servlet-class>hu.ak_akademia.atos.servlets.SearchUserResultServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SearchUserResultServket</servlet-name>
+		<servlet-name>SearchUserResultServlet</servlet-name>
 		<url-pattern>/searchUserResult</url-pattern>
 	</servlet-mapping>
-
-
-
 
 	<filter>
 		<filter-name>AuthenticationFilter</filter-name>
@@ -89,6 +90,7 @@
 		<filter-name>AuthenticationFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
 		<filter-class>hu.ak_akademia.atos.filters.CharacterEncodingFilter</filter-class>
@@ -99,4 +101,3 @@
 	</filter-mapping>
 
 </web-app>
-</elment>

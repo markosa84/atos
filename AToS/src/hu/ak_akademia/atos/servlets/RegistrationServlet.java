@@ -14,7 +14,7 @@ import hu.ak_akademia.atos.db.dao.UserInfoDao;
 import hu.ak_akademia.atos.db.entity.UserInfo;
 import hu.ak_akademia.atos.db.preparedstatementwriter.userinfo.CreateUserInfoPreparedStatementWriter;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
-import hu.ak_akademia.atos.logic.UserBalanceValidator;
+import hu.ak_akademia.atos.logic.UserInfoValidator;
 import hu.ak_akademia.atos.util.DateUtil;
 import hu.ak_akademia.atos.util.PasswordHandler;
 
@@ -36,7 +36,7 @@ public class RegistrationServlet extends HttpServlet {
 		String showMeInSearchAsString = request.getParameter("showMeInSearch");
 		String showAllDetailsAsString = request.getParameter("showAllDetails");
 
-		UserBalanceValidator userInfoValidator = new UserBalanceValidator();
+		UserInfoValidator userInfoValidator = new UserInfoValidator();
 
 		String previousValues = userInfoValidator.getPreviousValues(username, firstName, lastName, email, cityIdAsString, dateOfBirthAsString, genderIdAsString, showMeInSearchAsString, showAllDetailsAsString);
 
@@ -73,7 +73,7 @@ public class RegistrationServlet extends HttpServlet {
 		}
 	}
 
-	private void validate(UserBalanceValidator userInfoValidator, String username, String firstName, String lastName, String email, String password, String passwordConfirm, String cityIdAsString, String dateOfBirthAsString, String genderIdAsString, Set<String> invalidFields) {
+	private void validate(UserInfoValidator userInfoValidator, String username, String firstName, String lastName, String email, String password, String passwordConfirm, String cityIdAsString, String dateOfBirthAsString, String genderIdAsString, Set<String> invalidFields) {
 		userInfoValidator.validateUsername(username, invalidFields);
 		userInfoValidator.validateFirstName(firstName, invalidFields);
 		userInfoValidator.validateLastName(lastName, invalidFields);

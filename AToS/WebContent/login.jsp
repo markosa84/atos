@@ -39,7 +39,7 @@
 					<input type="submit" class="btn btn-primary" value="Login">
 				</form>
 				<div class="mt-3">
-					<a href="registration">Register</a>
+					<a href="<c:out value="${pageContext.servletContext.contextPath}" />/registration">Register</a>
 				</div>
 			</div>
 			<div class="col"></div>

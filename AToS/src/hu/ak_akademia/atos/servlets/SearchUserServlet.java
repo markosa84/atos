@@ -18,15 +18,14 @@ public class SearchUserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		String username = request.getParameter("username");
 
 		UserInfoDao userInfoDao = new UserInfoDao();
 		userInfoDao.openConnection();
-		List<UserInfo> userBalances = userInfoDao.read(new SelectAllByIdUserInfoSqlBuilder(),
-				new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
+		List<UserInfo> userBalances = userInfoDao.read(new SelectAllByIdUserInfoSqlBuilder(), new SelectAllByIdUserInfoPreparedStatementWriter(username), new SelectAllUserInfoResultSetReader());
 		userInfoDao.closeConnection();
 
 		if (userBalances.isEmpty()) {
