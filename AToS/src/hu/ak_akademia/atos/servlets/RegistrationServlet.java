@@ -14,6 +14,8 @@ import hu.ak_akademia.atos.db.dao.UserInfoDao;
 import hu.ak_akademia.atos.db.entity.UserInfo;
 import hu.ak_akademia.atos.db.preparedstatementwriter.userinfo.CreateUserInfoPreparedStatementWriter;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.CreateUserInfoSqlBuilder;
+import hu.ak_akademia.atos.logic.CityValidator;
+import hu.ak_akademia.atos.logic.GenderValidator;
 import hu.ak_akademia.atos.logic.UserInfoValidator;
 import hu.ak_akademia.atos.util.DateUtil;
 import hu.ak_akademia.atos.util.PasswordHandler;
@@ -80,8 +82,8 @@ public class RegistrationServlet extends HttpServlet {
 		userInfoValidator.validateEmail(email, invalidFields);
 		userInfoValidator.validatePassword(password, invalidFields);
 		userInfoValidator.validatePasswordConfirm(password, passwordConfirm, invalidFields);
-		userInfoValidator.validateCity(cityIdAsString, invalidFields);
-		userInfoValidator.validateGender(genderIdAsString, invalidFields);
+		new CityValidator().validateCity(cityIdAsString, invalidFields);
+		new GenderValidator().validateGender(genderIdAsString, invalidFields);
 		userInfoValidator.validateDateOfBirth(dateOfBirthAsString, invalidFields);
 	}
 

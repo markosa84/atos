@@ -74,6 +74,24 @@
 	</servlet-mapping>
 
 	<servlet>
+		<servlet-name>LoadCreateUserFilterServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.LoadCreateUserFilterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadCreateUserFilterServlet</servlet-name>
+		<url-pattern>/loadCreateUserFilter</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveCreateUserFilterServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.SaveCreateUserFilterServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveCreateUserFilterServlet</servlet-name>
+		<url-pattern>/saveCreateUserFilter</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>SearchUserResultServlet</servlet-name>
 		<servlet-class>hu.ak_akademia.atos.servlets.SearchUserResultServlet</servlet-class>
 	</servlet>

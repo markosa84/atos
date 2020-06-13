@@ -20,7 +20,6 @@ public class SearchUserServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		String username = request.getParameter("username");
 
 		UserInfoDao userInfoDao = new UserInfoDao();
@@ -37,4 +36,5 @@ public class SearchUserServlet extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/auth/searchUser.jsp");
 		}
 	}
+
 }
