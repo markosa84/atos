@@ -75,13 +75,13 @@ public class SaveProfileServlet extends HttpServlet {
 			userInfoDao.closeConnection();
 			request.getSession()
 					.setAttribute("loggedInUser", userInfo);
-			response.sendRedirect(request.getContextPath() + "/loadProfile?saveSuccessful");
+			response.sendRedirect(request.getContextPath() + "/loadEditProfile?saveSuccessful");
 		} else {
 			StringJoiner invalidFieldJoiner = new StringJoiner("&", "&", "");
 			for (String invalidField : invalidFields) {
 				invalidFieldJoiner.add(invalidField + "=true");
 			}
-			response.sendRedirect(request.getContextPath() + "/loadProfile?" + previousValues + invalidFieldJoiner);
+			response.sendRedirect(request.getContextPath() + "/loadEditProfile?" + previousValues + invalidFieldJoiner);
 		}
 	}
 

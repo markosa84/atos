@@ -23,6 +23,7 @@ import hu.ak_akademia.atos.db.resultsetreader.userinfo.SelectAllUserInfoResultSe
 import hu.ak_akademia.atos.db.sqlbuilder.searchuserfilter.DeleteByIdSearchUserFilterSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.searchuserfilter.SelectAllByIdSearchUserFilterSqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.userinfo.DynamicUserInfoSqlBuilder;
+import hu.ak_akademia.atos.util.RequestUtil;
 
 public class SearchUserActionServlet extends HttpServlet {
 
@@ -57,11 +58,15 @@ public class SearchUserActionServlet extends HttpServlet {
 				response.sendRedirect(request.getContextPath() + "/loadSearchUser");
 			} else {
 				SearchUserFilter searchUserFilter = searchUserFilters.get(0);
+
 				UserInfoDao userInfoDao = new UserInfoDao();
 				userInfoDao.openConnection();
 				List<UserInfo> userInfos = userInfoDao.read(new DynamicUserInfoSqlBuilder(searchUserFilter), new DynamicUserInfoPreparedStatementWriter(searchUserFilter), new SelectAllUserInfoResultSetReader());
 				userInfoDao.closeConnection();
 				request.setAttribute("userInfos", userInfos);
+
+				RequestUtil.loadGenderMap(request);
+
 				request.getRequestDispatcher("/auth/searchUserResults.jsp")
 						.forward(request, response);
 			}

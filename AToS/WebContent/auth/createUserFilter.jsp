@@ -12,26 +12,9 @@
 </head>
 <body style="height: 100%;">
 	<div class="container">
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="mainNav">
-			<div class="container">
-				<a class="navbar-brand" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp"><img src="<c:out value="${pageContext.servletContext.contextPath}" />/images/logo.png" alt="logo" style="width: 60px; height: 60px;"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
-					<ul class="navbar-nav mr-auto align-items-center">
-						<li class="nav-item "><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp">Home</a></li>
-						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadProfile">Edit profile</a></li>
-						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadSearchUser">Search user</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Manage Meetups</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
-					</ul>
-					<ul class="navbar-nav ml-auto align-items-center">
-						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/logout">Logout</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+		<jsp:include page="navigation.jsp" flush="true">
+			<jsp:param name="selectedItem" value="searchUser" />
+		</jsp:include>
 		<div class="row h-75">
 			<div class="col"></div>
 			<div class="col my-auto">

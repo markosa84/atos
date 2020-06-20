@@ -16,6 +16,7 @@ import hu.ak_akademia.atos.db.entity.UserInfo;
 import hu.ak_akademia.atos.db.preparedstatementwriter.searchuserfilter.SelectAllByUsernameSearchUserFilterPreparedStatementWriter;
 import hu.ak_akademia.atos.db.resultsetreader.searchuserfilter.SelectAllSearchUserFilterResultSetReader;
 import hu.ak_akademia.atos.db.sqlbuilder.searchuserfilter.SelectAllByUsernameSearchUserFilterSqlBuilder;
+import hu.ak_akademia.atos.util.RequestUtil;
 
 public class LoadSearchUserServlet extends HttpServlet {
 
@@ -40,6 +41,10 @@ public class LoadSearchUserServlet extends HttpServlet {
 		for (Entry<String, String[]> entry : parameterMap.entrySet()) {
 			request.setAttribute(entry.getKey(), entry.getValue()[0]);
 		}
+
+		RequestUtil.loadGenderMap(request);
+		RequestUtil.loadCityMap(request);
+		RequestUtil.loadInterestMap(request);
 
 		request.getRequestDispatcher("/auth/searchUser.jsp")
 				.forward(request, response);

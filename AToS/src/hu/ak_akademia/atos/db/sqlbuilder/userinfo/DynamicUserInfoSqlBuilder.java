@@ -26,7 +26,8 @@ public class DynamicUserInfoSqlBuilder implements SqlBuilder {
 		sql.append("	ui.show_all_details, ");
 		sql.append("	ui.paid ");
 		sql.append("FROM user_info ui INNER JOIN user_interest_map uim ON ui.username = uim.username ");
-		sql.append("WHERE uim.interest_id = ? ");
+		sql.append("WHERE ui.show_me_in_search = true ");
+		sql.append("AND uim.interest_id = ? ");
 		sql.append("AND ui.city_id = ? ");
 		if (filter.getGenderId() != null) {
 			sql.append("AND ui.gender_id = ? ");

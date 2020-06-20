@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +58,7 @@ import hu.ak_akademia.atos.util.PasswordHandler;
 public class InitDb extends AbstractDatabaseDao<Object> {
 
 	private static final Random random = new Random(20200425);
-	private static final int USER_INFO_LIMIT = 1_000;
+	private static final int USER_INFO_LIMIT = 10_000;
 
 	public static void main(String[] args) {
 		try {
@@ -287,9 +288,9 @@ public class InitDb extends AbstractDatabaseDao<Object> {
 		userInterestMapDao.openConnection();
 		for (UserInfo user : users) {
 			int numberOfInterests = random.nextInt(3) + 1;
+			Collections.shuffle(interests);
 			for (int i = 0; i < numberOfInterests; i++) {
-				int randomIndex = random.nextInt(interests.size());
-				Interest randomInterest = interests.get(randomIndex);
+				Interest randomInterest = interests.get(i);
 				UserInterestMap userInterestMap = UserInterestMap.builder()
 						.withUsername(user.getUsername())
 						.withInterestId(randomInterest.getInterestId())

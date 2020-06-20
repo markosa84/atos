@@ -12,26 +12,9 @@
 </head>
 <body style="height: 100%;">
 	<div class="container">
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark" id="mainNav">
-			<div class="container">
-				<a class="navbar-brand" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp"><img src="<c:out value="${pageContext.servletContext.contextPath}" />/images/logo.png" alt="logo" style="width: 60px; height: 60px;"></a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse align-items-center" id="navbarResponsive">
-					<ul class="navbar-nav mr-auto align-items-center">
-						<li class="nav-item "><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/auth/home.jsp">Home</a></li>
-						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadProfile">Edit profile</a></li>
-						<li class="nav-item active"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/loadSearchUser">Search user</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Manage Meetups</a></li>
-						<li class="nav-item"><a class="nav-link" href="#">Messages</a></li>
-					</ul>
-					<ul class="navbar-nav ml-auto align-items-center">
-						<li class="nav-item"><a class="nav-link" href="<c:out value="${pageContext.servletContext.contextPath}" />/logout">Logout</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav>
+		<jsp:include page="navigation.jsp" flush="true">
+			<jsp:param name="selectedItem" value="searchUser" />
+		</jsp:include>
 		<h1>User Search</h1>
 		<c:if test="${saveSuccessful}">
 			<div class="alert alert-success alert-dismissible">
@@ -46,19 +29,35 @@
 			</div>
 		</c:if>
 		<form action="searchUserAction" method="post">
-			<c:forEach var="filterItem" items="${filters}">
-				<div class="row">
-					<div class="col-10" style="font-size: 2em;">${filterItem.displayName}</div>
-					<div class="col-1">
-						<input type="submit" value="Delete" class="btn btn-danger" name="delete_${filterItem.searchUserFilterId}">
-					</div>
-					<div class="col-1">
-						<input type="submit" value="Execute" class="btn btn-primary" name="execute_${filterItem.searchUserFilterId}">
-					</div>
-				</div>
-			</c:forEach>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Filter Name</th>
+						<th>Interest</th>
+						<th>City</th>
+						<th>Gender</th>
+						<th>Age From</th>
+						<th>Age To</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="filterItem" items="${filters}">
+						<tr>
+							<td>${filterItem.displayName}</td>
+							<td>${interestMap.get(filterItem.interestId)}</td>
+							<td>${cityMap.get(filterItem.cityId)}</td>
+							<td>${genderMap.get(filterItem.genderId)}</td>
+							<td>${filterItem.ageFrom}</td>
+							<td>${filterItem.ageTo}</td>
+							<td><input type="submit" value="Delete" class="btn btn-danger float-right" name="delete_${filterItem.searchUserFilterId}"></td>
+							<td><input type="submit" value="Execute" class="btn btn-primary float-right" name="execute_${filterItem.searchUserFilterId}"></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
 		</form>
-
 		<a href="<c:out value="${pageContext.servletContext.contextPath}" />/loadCreateUserFilter" class="btn btn-primary">Create New Filter</a>
 	</div>
 </body>

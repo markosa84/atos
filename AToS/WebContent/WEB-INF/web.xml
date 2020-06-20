@@ -47,12 +47,21 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>LoadProfileServlet</servlet-name>
-		<servlet-class>hu.ak_akademia.atos.servlets.LoadProfileServlet</servlet-class>
+		<servlet-name>LoadEditProfileServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.LoadEditProfileServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>LoadProfileServlet</servlet-name>
-		<url-pattern>/loadProfile</url-pattern>
+		<servlet-name>LoadEditProfileServlet</servlet-name>
+		<url-pattern>/loadEditProfile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>LoadViewProfileServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.LoadViewProfileServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadViewProfileServlet</servlet-name>
+		<url-pattern>/loadViewProfile</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -107,6 +116,33 @@
 	<servlet-mapping>
 		<servlet-name>SearchUserResultServlet</servlet-name>
 		<url-pattern>/searchUserResult</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>LoadSendMessageServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.LoadSendMessageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadSendMessageServlet</servlet-name>
+		<url-pattern>/loadSendMessage</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveMessageServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.SaveMessageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveMessageServlet</servlet-name>
+		<url-pattern>/saveMessage</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>LoadMessagesServlet</servlet-name>
+		<servlet-class>hu.ak_akademia.atos.servlets.LoadMessagesServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadMessagesServlet</servlet-name>
+		<url-pattern>/loadMessages</url-pattern>
 	</servlet-mapping>
 
 	<filter>

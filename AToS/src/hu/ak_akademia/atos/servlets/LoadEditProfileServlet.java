@@ -21,7 +21,7 @@ import hu.ak_akademia.atos.db.resultsetreader.gender.SelectAllGenderResultSetRea
 import hu.ak_akademia.atos.db.sqlbuilder.city.SelectAllCitySqlBuilder;
 import hu.ak_akademia.atos.db.sqlbuilder.gender.SelectAllGenderSqlBuilder;
 
-public class LoadProfileServlet extends HttpServlet {
+public class LoadEditProfileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
